@@ -19,8 +19,10 @@ Ces deux emplacements sont exclus de git (`.gitignore`).
    statut (micro-entreprise) et son numéro SIREN pour les mentions légales.
 1. **Travelpayouts** : crée un compte gratuit sur travelpayouts.com, rejoins le
    programme Aviasales, puis récupère dans ton profil ton **token API** et ton
-   **marker** (identifiant partenaire). Vérifie dans ton tableau de bord le format
-   de lien affilié recommandé ; l'agent ajoute `marker=` aux liens Aviasales.
+   **marker** (l'« ID » affiché en bas à gauche du tableau de bord). Note aussi le
+   numéro de ton projet : c'est le nombre après `source=` dans l'adresse du tableau
+   de bord. Les liens passent par la redirection Travelpayouts (`tp.media/r`), qui
+   compte les clics et les rattache à ce projet.
 2. **Telegram** : crée un bot avec @BotFather (tu obtiens le token), crée un
    canal public, ajoute le bot comme administrateur. L'identifiant du canal est
    `@nom_du_canal`.
@@ -30,7 +32,8 @@ Ces deux emplacements sont exclus de git (`.gitignore`).
    - Settings → Secrets and variables → Actions → **Secrets** :
      `TP_TOKEN`, `TP_MARKER`, `TG_BOT_TOKEN`, `TG_CHAT_ID`
    - Même écran, onglet **Variables** :
-     `SITE_URL` (ex. https://bonvol.com), `SITE_NAME`, `TG_PUBLIC_LINK` (ex. https://t.me/bonvol)
+     `SITE_URL` (ex. https://bonvol.com), `SITE_NAME`, `TG_PUBLIC_LINK` (ex. https://t.me/bonvol),
+     `TP_TRS` (numéro du projet Travelpayouts)
    - Toujours dans **Variables**, les mentions légales (page `mentions-legales.html`) :
      `LEGAL_EDITOR` (ex. « Prénom Nom EI »), `LEGAL_ADDRESS` (une adresse de
      domiciliation est possible), `LEGAL_SIREN`, `LEGAL_PHONE`, `LEGAL_EMAIL`.
@@ -42,11 +45,23 @@ Ces deux emplacements sont exclus de git (`.gitignore`).
 4. **Domaine** : achète-le (≈ 10–15 €/an) et relie-le dans Settings → Pages → Custom domain.
 5. **Google** : ajoute le site dans Google Search Console et soumets `sitemap.xml`.
 
+## Organisation des fichiers
+
+- `agent.js` : relève les prix, garde l'historique, envoie les alertes Telegram.
+- `pages.js` : fabrique le site (accueil, une page par trajet, une page par destination, mentions légales).
+- `static/` : feuille de style, code du navigateur et photos des villes (copiés dans `docs/assets/`).
+- `villes.json` : villes proposées dans le module de recherche (nom, pays, code, coordonnées).
+
 ## Ajouter des trajets
 
 Ajoute une ligne dans `routes.json` (codes IATA de ville ou d'aéroport).
-Chaque trajet = une nouvelle page référencée. Commence par 10–30 trajets,
-puis augmente : l'API a des limites de requêtes.
+Chaque trajet = une nouvelle page référencée, et chaque nouvelle destination
+a sa propre page. Commence par 10–30 trajets, puis augmente : l'API a des
+limites de requêtes.
+
+Pour la photo d'une nouvelle destination : ajoute `static/img/CODE.webp`
+(photo libre de droits) et ses crédits dans `static/img/credits.json`.
+Sans photo, la carte de la ville garde une illustration colorée.
 
 ## Règles qui protègent ton site
 
