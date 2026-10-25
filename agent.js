@@ -16,6 +16,7 @@ const path = require('path');
 const CFG = {
   token: process.env.TP_TOKEN || '',
   marker: process.env.TP_MARKER || '',
+  trs: process.env.TP_TRS || '',       // numéro du projet Travelpayouts (« source= » dans l'adresse du tableau de bord)
   tgBot: process.env.TG_BOT_TOKEN || '',
   tgChat: process.env.TG_CHAT_ID || '',
   tgPublic: process.env.TG_PUBLIC_LINK || '',
@@ -82,8 +83,10 @@ function monthsAhead() {
 }
 function affLink(o) {
   if (!o || !o.link) return '#';
-  const sep = o.link.includes('?') ? '&' : '?';
-  return `https://www.aviasales.com${o.link}${sep}marker=${encodeURIComponent(CFG.marker)}`;
+  // Redirection Travelpayouts : compte le clic, le rattache au projet (trs), puis renvoie sur Aviasales avec le marker.
+  const q = new URLSearchParams({ marker: CFG.marker, ...(CFG.trs && { trs: CFG.trs }), p: '4114',
+    u: `https://www.aviasales.com${o.link}`, campaign_id: '100' });
+  return `https://tp.media/r?${q}`;
 }
 
 /* ---------- données ---------- */
