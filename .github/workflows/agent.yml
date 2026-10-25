@@ -25,6 +25,7 @@ jobs:
         env:
           TP_TOKEN: ${{ secrets.TP_TOKEN }}
           TP_MARKER: ${{ secrets.TP_MARKER }}
+          TP_TRS: ${{ vars.TP_TRS }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           TG_PUBLIC_LINK: ${{ vars.TG_PUBLIC_LINK }}
