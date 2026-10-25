@@ -1,0 +1,3 @@
+# Sorties de la démo (MOCK=1) : prix fictifs, à ne jamais publier
+demo/
+data/history.mock.json

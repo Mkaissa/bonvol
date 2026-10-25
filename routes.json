@@ -1,0 +1,12 @@
+[
+  { "from": "PAR", "fromName": "Paris", "to": "DKR", "toName": "Dakar", "mockBase": 420 },
+  { "from": "PAR", "fromName": "Paris", "to": "ABJ", "toName": "Abidjan", "mockBase": 480 },
+  { "from": "PAR", "fromName": "Paris", "to": "ALG", "toName": "Alger", "mockBase": 160 },
+  { "from": "PAR", "fromName": "Paris", "to": "CAS", "toName": "Casablanca", "mockBase": 120 },
+  { "from": "PAR", "fromName": "Paris", "to": "TUN", "toName": "Tunis", "mockBase": 140 },
+  { "from": "PAR", "fromName": "Paris", "to": "BKO", "toName": "Bamako", "mockBase": 450 },
+  { "from": "PAR", "fromName": "Paris", "to": "DLA", "toName": "Douala", "mockBase": 520 },
+  { "from": "BRU", "fromName": "Bruxelles", "to": "FIH", "toName": "Kinshasa", "mockBase": 560 },
+  { "from": "LYS", "fromName": "Lyon", "to": "ALG", "toName": "Alger", "mockBase": 150 },
+  { "from": "YMQ", "fromName": "Montréal", "to": "ALG", "toName": "Alger", "mockBase": 650 }
+]
