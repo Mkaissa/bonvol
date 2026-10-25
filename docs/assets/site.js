@@ -124,6 +124,8 @@
     'Booking.com': function (v) { return 'https://www.booking.com/searchresults.fr.html?ss=' + enc(v.city) + '&checkin=' + v.d1 + '&checkout=' + v.d2 + '&group_adults=' + v.adults + '&group_children=' + v.children + '&no_rooms=1'; },
     Agoda: function (v) { return 'https://www.agoda.com/fr-fr/search?textToSearch=' + enc(v.city) + '&checkIn=' + v.d1 + '&los=' + v.nights + '&adults=' + v.adults + '&children=' + v.children + '&rooms=1'; },
     Expedia: function (v) { return 'https://www.expedia.com/Hotel-Search?destination=' + enc(v.city) + '&startDate=' + v.d1 + '&endDate=' + v.d2 + '&adults=' + v.adults; },
+    'Hotels.com': function (v) { return 'https://www.hotels.com/Hotel-Search?destination=' + enc(v.city) + '&startDate=' + v.d1 + '&endDate=' + v.d2 + '&adults=' + v.adults; },
+    Vrbo: function (v) { return 'https://www.vrbo.com/search?destination=' + enc(v.city) + '&startDate=' + v.d1 + '&endDate=' + v.d2 + '&adults=' + v.adults; },
     GetYourGuide: function (v) { return 'https://www.getyourguide.com/s/?q=' + enc(v.query) + (v.d1 ? '&date_from=' + v.d1 + '&date_to=' + v.d1 : ''); },
     Klook: function (v) { return 'https://www.klook.com/fr/search/result/?query=' + enc(v.query); },
     Viator: function (v) { return 'https://www.viator.com/fr-FR/searchResults/all?text=' + enc(v.query); },
