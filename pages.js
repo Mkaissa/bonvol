@@ -84,7 +84,7 @@ function page({ title, desc, canonical, root, night, nightClass = '', nightBg = 
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Figtree:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${root}assets/style.css?v=${ctx.ver}">
 <script>document.documentElement.classList.add('js')</script>${jsonld}</head>
-<body data-marker="${esc(CFG.marker)}" data-trs="${esc(CFG.trs)}">${ICONS}
+<body data-marker="${esc(CFG.marker)}" data-trs="${esc(CFG.trs)}" data-partners="${esc(JSON.stringify(ctx.partnerCfg))}">${ICONS}
 ${CFG.mock ? '<p class="demo">Mode démonstration : les prix affichés sont fictifs. En production, ils viennent de l\'API Travelpayouts.</p>' : ''}
 <div class="night ${nightClass}">${nightBg}<div class="wrap">${nav(root)}${night}</div></div>
 <main class="day"><div class="wrap">${day}</div></main>
@@ -350,7 +350,9 @@ function buildSite(items, context) {
     if (!d.origins.includes(it.r.fromName)) d.origins.push(it.r.fromName);
   }
   for (const d of dests) { const p = d.items.filter(isFresh).map(it => it.h.best.price); d.min = p.length ? Math.min(...p) : null; }
-  Object.assign(ctx, { items, dests });
+  const pt = ctx.partners || {};
+  const partnerCfg = Object.fromEntries(Object.entries(pt.tabs || {}).map(([tab, brand]) => [tab, { brand, ...pt.brands[brand] }]));
+  Object.assign(ctx, { items, dests, partnerCfg });
 
   fs.mkdirSync(path.join(OUT, 'vols'), { recursive: true });
   fs.mkdirSync(path.join(OUT, 'destinations'), { recursive: true });

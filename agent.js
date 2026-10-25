@@ -141,6 +141,57 @@ async function loadAirlines() {
   } catch (e) { report('warning', `Noms des compagnies indisponibles (${e.message}) : les codes seront affichés`); }
 }
 
+/* ---------- partenaires (hôtels, voitures, activités, restaurants) ---------- */
+// Pour chaque onglet du module de recherche, le premier partenaire que Travelpayouts accepte de convertir en lien affilié est retenu.
+const PARTNERS_FILE = path.join(ROOT, 'data', 'partners.json');
+const BRANDS = {
+  'Booking.com': 'https://www.booking.com/', Agoda: 'https://www.agoda.com/', Expedia: 'https://www.expedia.com/',
+  DiscoverCars: 'https://www.discovercars.com/', EconomyBookings: 'https://www.economybookings.com/', QEEQ: 'https://www.qeeq.com/',
+  Localrent: 'https://localrent.com/', GetYourGuide: 'https://www.getyourguide.com/', Klook: 'https://www.klook.com/',
+  Tiqets: 'https://www.tiqets.com/', Viator: 'https://www.viator.com/', Tripadvisor: 'https://www.tripadvisor.com/',
+};
+const TAB_BRANDS = {
+  hotels: ['Booking.com', 'Agoda', 'Expedia'],
+  voitures: ['DiscoverCars', 'EconomyBookings', 'QEEQ', 'Localrent'],
+  activites: ['GetYourGuide', 'Klook', 'Viator', 'Tiqets'],
+  restaurants: ['Tripadvisor', 'GetYourGuide', 'Klook'],
+};
+async function discoverPartners() {
+  const old = fs.existsSync(PARTNERS_FILE) ? JSON.parse(fs.readFileSync(PARTNERS_FILE, 'utf8')) : null;
+  if (old && Date.now() - new Date(old.checkedAt) < 7 * 864e5 && !process.env.PARTNERS_REFRESH) return old;
+  const names = Object.keys(BRANDS), brands = {};
+  try {
+    for (let i = 0; i < names.length; i += 10) {
+      const batch = names.slice(i, i + 10);
+      const res = await fetch('https://api.travelpayouts.com/links/v1/create', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Access-Token': CFG.token },
+        body: JSON.stringify({ trs: Number(CFG.trs), marker: Number(CFG.marker), shorten: false, links: batch.map(n => ({ url: BRANDS[n] })) }),
+      });
+      const txt = await res.text();
+      if (i === 0) report('notice', `Liens partenaires, réponse de Travelpayouts (${res.status}) : ${txt.slice(0, 700)}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = JSON.parse(txt), list = json.result?.links || json.links || json.result || [];
+      batch.forEach((n, k) => {
+        const out = Array.isArray(list) ? list[k] : null;
+        const link = out && Object.values(out).find(v => typeof v === 'string' && /^https?:\/\//.test(v) && v !== BRANDS[n]);
+        if (!link) return;
+        const u = new URL(link), p = u.searchParams.get('p'), campaign = u.searchParams.get('campaign_id');
+        brands[n] = { link, ...(p && campaign && { p, campaign_id: campaign }) };
+      });
+      await sleep(700);
+    }
+  } catch (e) {
+    report('warning', `Liens partenaires indisponibles (${e.message}) : les onglets concernés restent « bientôt »`);
+    return old || { checkedAt: null, brands: {}, tabs: {} };
+  }
+  const tabs = Object.fromEntries(Object.entries(TAB_BRANDS).map(([t, list]) => [t, list.find(n => brands[n])]).filter(([, n]) => n));
+  report('notice', `Partenaires retenus : ${Object.entries(tabs).map(([t, n]) => `${t} → ${n}`).join(', ') || 'aucun'} (convertis : ${Object.keys(brands).join(', ') || 'aucun'})`);
+  const out = { checkedAt: new Date().toISOString(), brands, tabs };
+  fs.mkdirSync(path.dirname(PARTNERS_FILE), { recursive: true });
+  fs.writeFileSync(PARTNERS_FILE, JSON.stringify(out, null, 1));
+  return out;
+}
+
 const loadHistory = () => (fs.existsSync(HISTORY_FILE) ? JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8')) : {});
 function saveHistory(h) {
   fs.mkdirSync(path.dirname(HISTORY_FILE), { recursive: true });
@@ -192,6 +243,7 @@ async function main() {
     else if (!CFG.tgBot || !CFG.tgChat) report('error', 'Telegram : TG_BOT_TOKEN ou TG_CHAT_ID manquant');
   }
   if (!CFG.mock) await loadAirlines();
+  const partners = CFG.mock ? { brands: {}, tabs: {} } : await discoverPartners();
   const history = loadHistory(), today = dayKey(), items = [];
   for (const [i, r] of routes.entries()) {
     const key = `${r.from}-${r.to}`;
@@ -225,7 +277,7 @@ async function main() {
   const noPrice = items.filter(it => !it.fresh).map(it => it.key);
   if (noPrice.length) report('warning', `Pas de prix actuel pour : ${noPrice.join(', ')}`);
   saveHistory(history);
-  pages.buildSite(items, { CFG, OUT, affLink, airlineName, frDate, frTime, stopsText, dayKey, report });
+  pages.buildSite(items, { CFG, OUT, partners, affLink, airlineName, frDate, frTime, stopsText, dayKey, report });
   console.log(`Site généré dans ${OUT}`);
 }
 
