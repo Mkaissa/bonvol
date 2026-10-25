@@ -317,7 +317,10 @@ function buildDest(d) {
 }
 
 function buildLegal() {
-  const { CFG } = ctx, L = CFG.legal, v = s => (s ? esc(s) : '<em class="todo">[à compléter]</em>');
+  const { CFG } = ctx, L = CFG.legal, v = s => esc(s || '');
+  // Seules les informations renseignées sont affichées ; les manquantes sont signalées dans les messages du lancement.
+  const lines = (...pairs) => pairs.filter(([, s]) => s).map(([label, s]) => `${label}${esc(s)}`).join('<br>');
+  const editor = lines(['', L.editor], ['', L.address], ['SIREN : ', L.siren], ['Téléphone : ', L.phone], ['E-mail : ', L.email]);
   const missing = Object.entries({ LEGAL_EDITOR: L.editor, LEGAL_ADDRESS: L.address, LEGAL_SIREN: L.siren, LEGAL_PHONE: L.phone, LEGAL_EMAIL: L.email })
     .filter(([, s]) => !s).map(([k]) => k);
   if (missing.length && !CFG.mock) ctx.report('warning', `Mentions légales incomplètes, variables manquantes : ${missing.join(', ')}`);
@@ -325,7 +328,7 @@ function buildLegal() {
   const credits = Object.entries(CREDITS).map(([k, c]) => `<li><b>${esc(cityName(k))}</b> — <a href="${esc(c.page)}">${esc(c.author)}</a>, ${c.licenseUrl ? `<a href="${esc(c.licenseUrl)}">${esc(c.license)}</a>` : esc(c.license)}</li>`).join('');
   const night = `<section class="hero"><div><h1>Mentions <em>légales</em></h1><p class="lede">Qui édite ${esc(CFG.siteName)}, qui l'héberge, et comment le site fonctionne.</p></div></section>`;
   const day = `<div class="legal-grid">
-<div class="panel"><h2>Éditeur du site</h2><p>${v(L.editor)}<br>${v(L.address)}<br>SIREN : ${v(L.siren)}<br>Téléphone : ${v(L.phone)}<br>E-mail : ${v(L.email)}</p><p>Directeur de la publication : ${v(L.editor)}</p></div>
+<div class="panel"><h2>Éditeur du site</h2><p>${editor || 'Coordonnées en cours de mise à jour.'}</p>${L.editor ? `<p>Directeur de la publication : ${v(L.editor)}</p>` : ''}</div>
 <div class="panel"><h2>Hébergeur</h2><p>${v(L.hostName)}<br>${v(L.hostAddress)}<br>${host}</p></div>
 <div class="panel"><h2>Prix affichés</h2><p>Les prix proviennent de recherches récentes effectuées sur Aviasales. Ils peuvent avoir changé depuis : le prix et la disponibilité sont confirmés au moment du clic chez le partenaire de réservation.</p></div>
 <div class="panel"><h2>Liens affiliés</h2><p>Certains liens sont affiliés : si vous réservez après un clic, ${esc(CFG.siteName)} touche une commission, sans surcoût pour vous.</p></div>

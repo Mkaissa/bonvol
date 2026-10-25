@@ -145,13 +145,14 @@ async function loadAirlines() {
 // Pour chaque onglet du module de recherche, le premier partenaire que Travelpayouts accepte de convertir en lien affilié est retenu.
 const PARTNERS_FILE = path.join(ROOT, 'data', 'partners.json');
 const BRANDS = {
-  'Booking.com': 'https://www.booking.com/', Agoda: 'https://www.agoda.com/', Expedia: 'https://www.expedia.com/',
+  'Booking.com': 'https://www.booking.com/', Agoda: 'https://www.agoda.com/', 'Trip.com': 'https://www.trip.com/', Expedia: 'https://www.expedia.com/',
+  'Hotels.com': 'https://www.hotels.com/', Vrbo: 'https://www.vrbo.com/', 'Vio.com': 'https://www.vio.com/', Hostelworld: 'https://www.hostelworld.com/',
   DiscoverCars: 'https://www.discovercars.com/', EconomyBookings: 'https://www.economybookings.com/', QEEQ: 'https://www.qeeq.com/',
   Localrent: 'https://localrent.com/', GetYourGuide: 'https://www.getyourguide.com/', Klook: 'https://www.klook.com/',
   Tiqets: 'https://www.tiqets.com/', Viator: 'https://www.viator.com/', Tripadvisor: 'https://www.tripadvisor.com/',
 };
 const TAB_BRANDS = {
-  hotels: ['Booking.com', 'Agoda', 'Expedia'],
+  hotels: ['Booking.com', 'Agoda', 'Trip.com', 'Expedia', 'Hotels.com', 'Vrbo', 'Vio.com', 'Hostelworld'],
   voitures: ['DiscoverCars', 'EconomyBookings', 'QEEQ', 'Localrent'],
   activites: ['GetYourGuide', 'Klook', 'Viator', 'Tiqets'],
   restaurants: ['Tripadvisor', 'GetYourGuide', 'Klook'],
