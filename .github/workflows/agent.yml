@@ -9,6 +9,10 @@ on:
         description: 'Envoyer un message de test sur Telegram'
         type: boolean
         default: false
+      refresh_partners:
+        description: 'Revérifier les partenaires (hôtels, voitures, activités, restaurants)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -35,6 +39,7 @@ jobs:
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           TG_PUBLIC_LINK: ${{ vars.TG_PUBLIC_LINK }}
           TG_TEST: ${{ inputs.test_telegram && '1' || '' }}
+          PARTNERS_REFRESH: ${{ inputs.refresh_partners && '1' || '' }}
           SITE_URL: ${{ vars.SITE_URL }}
           SITE_NAME: ${{ vars.SITE_NAME }}
           LEGAL_EDITOR: ${{ vars.LEGAL_EDITOR }}
