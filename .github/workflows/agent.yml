@@ -1,0 +1,45 @@
+name: Agent prix
+
+on:
+  schedule:
+    - cron: '7 * * * *'   # chaque heure (à la 7e minute)
+  workflow_dispatch:       # bouton "Run workflow" pour lancer à la main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: agent-prix
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Lancer l'agent
+        run: node agent.js
+        env:
+          TP_TOKEN: ${{ secrets.TP_TOKEN }}
+          TP_MARKER: ${{ secrets.TP_MARKER }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          TG_PUBLIC_LINK: ${{ vars.TG_PUBLIC_LINK }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          SITE_NAME: ${{ vars.SITE_NAME }}
+          LEGAL_EDITOR: ${{ vars.LEGAL_EDITOR }}
+          LEGAL_ADDRESS: ${{ vars.LEGAL_ADDRESS }}
+          LEGAL_SIREN: ${{ vars.LEGAL_SIREN }}
+          LEGAL_PHONE: ${{ vars.LEGAL_PHONE }}
+          LEGAL_EMAIL: ${{ vars.LEGAL_EMAIL }}
+          HOST_PHONE: ${{ vars.HOST_PHONE }}
+      - name: Publier les mises à jour
+        run: |
+          git config user.name "agent-prix"
+          git config user.email "agent-prix@users.noreply.github.com"
+          git add data docs
+          git commit -m "Mise à jour des prix" || echo "Rien de nouveau"
+          git push
