@@ -1,0 +1,35 @@
+{
+ "checkedAt": "2026-10-25T20:09:14.182Z",
+ "brands": {
+  "EconomyBookings": {
+   "link": "https://tp.media/r?campaign_id=10&marker=795395&p=2018&trs=591037&u=https%3A%2F%2Fwww.economybookings.com%2F",
+   "p": "2018",
+   "campaign_id": "10"
+  },
+  "QEEQ": {
+   "link": "https://tp.media/r?campaign_id=172&marker=795395&p=4845&trs=591037&u=https%3A%2F%2Fwww.qeeq.com%2F",
+   "p": "4845",
+   "campaign_id": "172"
+  },
+  "Localrent": {
+   "link": "https://tp.media/r?campaign_id=87&marker=795395&p=2043&trs=591037&u=https%3A%2F%2Flocalrent.com%2F",
+   "p": "2043",
+   "campaign_id": "87"
+  },
+  "Klook": {
+   "link": "https://tp.media/r?campaign_id=137&marker=795395&p=4110&trs=591037&u=https%3A%2F%2Fwww.klook.com%2F",
+   "p": "4110",
+   "campaign_id": "137"
+  },
+  "Tiqets": {
+   "link": "https://tp.media/r?campaign_id=89&marker=795395&p=2074&trs=591037&u=https%3A%2F%2Fwww.tiqets.com%2F",
+   "p": "2074",
+   "campaign_id": "89"
+  }
+ },
+ "tabs": {
+  "voitures": "EconomyBookings",
+  "activites": "Klook",
+  "restaurants": "Klook"
+ }
+}

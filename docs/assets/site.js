@@ -109,18 +109,45 @@
     window.open('https://tp.media/r?' + q, '_blank', 'noopener');
   });
 
-  /* autres onglets : formulaires prêts, reliés aux partenaires dès qu'ils seront actifs */
+  /* autres onglets : recherche envoyée chez le partenaire retenu par l'agent, avec un lien affilié */
+  var PARTNERS = {}; try { PARTNERS = JSON.parse(cfg.partners || '{}'); } catch (e) { /* aucun partenaire */ }
+  var PAX = [['2 adultes', '2,0'], ['1 adulte', '1,0'], ['2 adultes, 1 enfant', '2,1'], ['2 adultes, 2 enfants', '2,2'], ['Famille (5 et +)', '2,3']];
   var PANES = {
-    hotels: { go: 'Voir les hôtels', fields: [['Destination', 'city'], ['Arrivée', 'date', 30], ['Départ', 'date', 37], ['Voyageurs', 'sel', ['2 adultes', '1 adulte', '2 adultes, 1 enfant', '2 adultes, 2 enfants', 'Famille (5 et +)']]] },
-    voitures: { go: 'Voir les voitures', fields: [['Prise en charge', 'city'], ['Début', 'date', 30], ['Fin', 'date', 37], ['Conducteur', 'sel', ['30 à 65 ans', '25 à 29 ans', 'Plus de 65 ans']]] },
-    activites: { go: 'Voir les activités', fields: [['Destination', 'city'], ['Date', 'date', 31], ['Envie', 'sel', ['Tout voir', 'Visites & culture', 'Excursions', 'Plages & nature', 'Concerts & événements']]] },
-    restaurants: { go: 'Trouver une table', fields: [['Ville', 'city'], ['Date', 'date', 30], ['Heure', 'sel', ['20:00', '19:30', '20:30', '21:00', '12:30', '13:00']], ['Personnes', 'sel', ['2 personnes', '1 personne', '3 personnes', '4 personnes', '6 et plus']]] },
+    hotels: { go: 'Voir les hôtels', fields: [['Destination', 'city'], ['Arrivée', 'date', 30, 'd1'], ['Départ', 'date', 37, 'd2'], ['Voyageurs', 'sel', PAX, 'pax']] },
+    voitures: { go: 'Voir les voitures', fields: [['Prise en charge', 'city'], ['Début', 'date', 30, 'd1'], ['Fin', 'date', 37, 'd2'], ['Conducteur', 'sel', [['30 à 65 ans', '30'], ['25 à 29 ans', '25'], ['Plus de 65 ans', '66']], 'age']] },
+    activites: { go: 'Voir les activités', fields: [['Destination', 'city'], ['Date', 'date', 31, 'd1'], ['Envie', 'sel', [['Tout voir', ''], ['Visites & culture', 'visite'], ['Excursions', 'excursion'], ['Plages & nature', 'plage'], ['Concerts & événements', 'concert']], 'envie']] },
+    restaurants: { go: 'Voir les restaurants', fields: [['Ville', 'city'], ['Envie', 'sel', [['Restaurants', 'restaurants'], ['Cuisine locale', 'cuisine locale'], ['Cours de cuisine & food tours', 'food tour']], 'envie']] },
+  };
+  var enc = encodeURIComponent;
+  // Adresse de recherche chez chaque partenaire (les autres reçoivent leur page d'accueil).
+  var BUILD = {
+    'Booking.com': function (v) { return 'https://www.booking.com/searchresults.fr.html?ss=' + enc(v.city) + '&checkin=' + v.d1 + '&checkout=' + v.d2 + '&group_adults=' + v.adults + '&group_children=' + v.children + '&no_rooms=1'; },
+    Agoda: function (v) { return 'https://www.agoda.com/fr-fr/search?textToSearch=' + enc(v.city) + '&checkIn=' + v.d1 + '&los=' + v.nights + '&adults=' + v.adults + '&children=' + v.children + '&rooms=1'; },
+    Expedia: function (v) { return 'https://www.expedia.com/Hotel-Search?destination=' + enc(v.city) + '&startDate=' + v.d1 + '&endDate=' + v.d2 + '&adults=' + v.adults; },
+    GetYourGuide: function (v) { return 'https://www.getyourguide.com/s/?q=' + enc(v.query) + (v.d1 ? '&date_from=' + v.d1 + '&date_to=' + v.d1 : ''); },
+    Klook: function (v) { return 'https://www.klook.com/fr/search/result/?query=' + enc(v.query); },
+    Viator: function (v) { return 'https://www.viator.com/fr-FR/searchResults/all?text=' + enc(v.query); },
+    Tripadvisor: function (v) { return 'https://www.tripadvisor.com/Search?q=' + enc(v.query); },
   };
   var destCode = form.dataset.dest || 'DKR';
   function fieldHtml(f, i) {
-    if (f[1] === 'city') return '<div class="field city from"><label for="a' + i + '">' + f[0] + '<span class="code">' + destCode + '</span></label><input id="a' + i + '" value="' + (NAME[destCode] || destCode) + '" data-code="' + destCode + '" role="combobox" aria-expanded="false" aria-autocomplete="list"></div>';
-    if (f[1] === 'date') return '<div class="field date"><label for="a' + i + '">' + f[0] + '</label><span class="dval" aria-hidden="true"></span><input id="a' + i + '" type="date" value="' + plus(f[2]) + '" min="' + plus(0) + '"></div>';
-    return '<div class="field"><label for="a' + i + '">' + f[0] + '</label><select id="a' + i + '">' + f[2].map(function (o) { return '<option>' + o + '</option>'; }).join('') + '</select></div>';
+    if (f[1] === 'city') return '<div class="field city from"><label for="a' + i + '">' + f[0] + '<span class="code">' + destCode + '</span></label><input id="a' + i + '" data-role="city" value="' + (NAME[destCode] || destCode) + '" data-code="' + destCode + '" role="combobox" aria-expanded="false" aria-autocomplete="list"></div>';
+    if (f[1] === 'date') return '<div class="field date"><label for="a' + i + '">' + f[0] + '</label><span class="dval" aria-hidden="true"></span><input id="a' + i + '" data-role="' + f[3] + '" type="date" value="' + plus(f[2]) + '" min="' + plus(0) + '"></div>';
+    return '<div class="field"><label for="a' + i + '">' + f[0] + '</label><select id="a' + i + '" data-role="' + f[3] + '">' + f[2].map(function (o) { return '<option value="' + o[1] + '">' + o[0] + '</option>'; }).join('') + '</select></div>';
+  }
+  function values(alt, tab) {
+    var v = {};
+    $$('[data-role]', alt).forEach(function (el) { v[el.dataset.role] = el.dataset.role === 'city' ? (NAME[el.dataset.code] || el.value) : el.value; });
+    var pax = (v.pax || '2,0').split(','); v.adults = pax[0]; v.children = pax[1];
+    if (v.d1 && v.d2) v.nights = Math.max(1, Math.round((new Date(v.d2) - new Date(v.d1)) / 864e5));
+    v.query = tab === 'restaurants' ? (v.envie + ' ' + v.city) : (v.city + ' ' + (v.envie || '')).trim();
+    return v;
+  }
+  function partnerLink(tab, alt) {
+    var p = PARTNERS[tab]; if (!p) return null;
+    var target = BUILD[p.brand] ? BUILD[p.brand](values(alt, tab)) : null;
+    if (target && p.p && p.campaign_id) return 'https://tp.media/r?marker=' + cfg.marker + (cfg.trs ? '&trs=' + cfg.trs : '') + '&p=' + p.p + '&u=' + enc(target) + '&campaign_id=' + p.campaign_id;
+    return p.link || null;
   }
   function showTab(v) {
     if (v !== 'vols' && !PANES[v]) return;
@@ -130,12 +157,17 @@
     $('#footVols').hidden = !flights; $('#footAlt').hidden = flights;
     alt.innerHTML = '';
     if (flights) return;
-    var p = PANES[v];
-    alt.innerHTML = '<div class="s-form alt" style="grid-template-columns:1.6fr repeat(' + (p.fields.length - 1) + ',1fr) auto">' + p.fields.map(fieldHtml).join('') +
-      '<button class="go" type="button">' + p.go + '<svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>';
+    var pane = PANES[v], partner = PARTNERS[v];
+    $('#footAlt .trust').lastChild.textContent = partner ? 'Résultats sur ' + partner.brand + ' · réservation chez le partenaire, sans surcoût' : 'Réservation chez nos partenaires · sans surcoût';
+    alt.innerHTML = '<div class="s-form alt" style="grid-template-columns:1.6fr repeat(' + (pane.fields.length - 1) + ',1fr) auto">' + pane.fields.map(fieldHtml).join('') +
+      '<button class="go" type="button">' + pane.go + '<svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>';
     $$('input[type=date]', alt).forEach(datePicker); $$('.field.city input', alt).forEach(attachAuto);
-    $('.go', alt).addEventListener('click', function () { var s = $('#soon'); s.hidden = false;
-      s.textContent = 'Ce module arrive bientôt : nous finalisons nos partenaires pour les hôtels, voitures, activités et restaurants. En attendant, les vols sont disponibles.'; });
+    $('.go', alt).addEventListener('click', function () {
+      var href = partnerLink(v, alt);
+      if (href) { window.open(href, '_blank', 'noopener'); return; }
+      var s = $('#soon'); s.hidden = false;
+      s.textContent = 'Ce module arrive bientôt : nous finalisons ce partenaire. En attendant, les vols sont disponibles.';
+    });
   }
   $$('.tab', form).forEach(function (t) { t.addEventListener('click', function () { showTab(t.dataset.tab); }); });
   $$('.chip[data-c]', form).forEach(function (c) { c.addEventListener('click', function () { var i = $('#altPane .field.city input'); if (i) setCity(i, c.dataset.c); }); });
