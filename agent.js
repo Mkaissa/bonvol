@@ -20,6 +20,7 @@ const CFG = {
   tgBot: process.env.TG_BOT_TOKEN || '',
   tgChat: process.env.TG_CHAT_ID || '',
   tgPublic: process.env.TG_PUBLIC_LINK || '',
+  tgTest: process.env.TG_TEST === '1',   // case « Envoyer un message de test » du bouton Run workflow
   siteUrl: (process.env.SITE_URL || 'https://exemple.com').replace(/\/$/, ''),
   siteName: process.env.SITE_NAME || 'BonVol',
   tz: process.env.SITE_TZ || 'Europe/Paris',
@@ -48,12 +49,15 @@ const HISTORY_FILE = path.join(ROOT, 'data', CFG.mock ? 'history.mock.json' : 'h
 const OUT = path.join(ROOT, CFG.mock ? 'demo' : 'docs');
 const routes = JSON.parse(fs.readFileSync(path.join(ROOT, 'routes.json'), 'utf8'));
 
+// Noms prioritaires (accents, noms courts) ; toutes les autres compagnies viennent de la base Travelpayouts.
 const AIRLINES = {
   AF: 'Air France', AT: 'Royal Air Maroc', AH: 'Air Algérie', TU: 'Tunisair',
   HF: "Air Côte d'Ivoire", SN: 'Brussels Airlines', TO: 'Transavia', V7: 'Volotea',
   TK: 'Turkish Airlines', AC: 'Air Canada', SS: 'Corsair', ET: 'Ethiopian Airlines',
   KQ: 'Kenya Airways', HC: 'Air Sénégal', FR: 'Ryanair', U2: 'easyJet',
 };
+const AIRLINES_URL = 'https://api.travelpayouts.com/data/en/airlines.json';
+const airlineDb = {};
 
 /* ---------- utilitaires ---------- */
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -68,7 +72,9 @@ const frDate = (iso, o = { day: 'numeric', month: 'long', year: 'numeric' }) =>
   new Date(iso).toLocaleDateString('fr-FR', { timeZone: CFG.tz, ...o });
 const frTime = iso => new Date(iso)
   .toLocaleTimeString('fr-FR', { timeZone: CFG.tz, hour: '2-digit', minute: '2-digit' }).replace(':', 'h');
-const airlineName = c => AIRLINES[c] || c || 'Compagnie non précisée';
+const airlineName = c => AIRLINES[c] || airlineDb[c] || c || 'Compagnie non précisée';
+// Dans GitHub Actions, ces messages s'affichent en annotations sur la page du lancement.
+const report = (level, msg) => console.log(process.env.GITHUB_ACTIONS === 'true' ? `::${level}::${msg}` : msg);
 const stopsText = n => (n === 0 ? 'direct' : n === 1 ? '1 escale' : `${n} escales`);
 function median(a) {
   const s = [...a].sort((x, y) => x - y), m = Math.floor(s.length / 2);
@@ -100,11 +106,11 @@ async function fetchOffers(r) {
     }).toString();
     try {
       const res = await fetch(url);
-      if (!res.ok) { console.warn(`API ${res.status} : ${r.from}-${r.to} ${month}`); continue; }
+      if (!res.ok) { report('warning', `API ${res.status} : ${r.from}-${r.to} ${month}`); continue; }
       const json = await res.json();
       if (json.success && Array.isArray(json.data)) offers.push(...json.data);
     } catch (e) {
-      console.warn(`Erreur réseau ${r.from}-${r.to} : ${e.message}`);
+      report('warning', `Erreur réseau ${r.from}-${r.to} : ${e.message}`);
     }
     await sleep(400); // reste poli avec l'API
   }
@@ -127,6 +133,14 @@ function mockHistory(r) {
   return out;
 }
 
+async function loadAirlines() {
+  try {
+    const res = await fetch(AIRLINES_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    for (const a of await res.json()) if (a.code) airlineDb[a.code] = a.name || a.name_translations?.en || '';
+  } catch (e) { report('warning', `Noms des compagnies indisponibles (${e.message}) : les codes seront affichés`); }
+}
+
 const loadHistory = () => (fs.existsSync(HISTORY_FILE) ? JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8')) : {});
 function saveHistory(h) {
   fs.mkdirSync(path.dirname(HISTORY_FILE), { recursive: true });
@@ -139,8 +153,18 @@ function shouldAlert(h) {
   const age = Date.now() - new Date(h.lastAlert.at);
   return age > 24 * 3600e3 || h.best.price < h.lastAlert.price * 0.95;
 }
-async function sendTelegram(it) {
+async function tgSend(text) {
   if (!CFG.tgBot || !CFG.tgChat) return false;
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${CFG.tgBot}/sendMessage`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CFG.tgChat, text, parse_mode: 'HTML', disable_web_page_preview: true }),
+    });
+    if (!res.ok) report('error', `Telegram refuse le message : ${(await res.json().catch(() => ({}))).description || res.status}`);
+    return res.ok;
+  } catch (e) { report('error', `Telegram : ${e.message}`); return false; }
+}
+async function sendTelegram(it) {
   const b = it.h.best;
   const text = [
     `✈️ <b>${esc(it.r.fromName)} → ${esc(it.r.toName)} : ${eur(b.price)}</b> (aller simple)`,
@@ -149,13 +173,7 @@ async function sendTelegram(it) {
     `<a href="${esc(affLink(b))}">Voir ce vol</a>`,
     `<i>Prix trouvé lors de recherches récentes : il peut avoir changé, le prix final est confirmé au clic.</i>`,
   ].join('\n');
-  try {
-    const res = await fetch(`https://api.telegram.org/bot${CFG.tgBot}/sendMessage`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: CFG.tgChat, text, parse_mode: 'HTML', disable_web_page_preview: true }),
-    });
-    return res.ok;
-  } catch (e) { console.warn(`Telegram : ${e.message}`); return false; }
+  return tgSend(text);
 }
 
 /* ---------- site ---------- */
@@ -249,6 +267,7 @@ Certains liens sont affiliés : si vous réservez, ${esc(CFG.siteName)} touche u
 function statusHtml(it) {
   if (!it.h.best || !it.fresh) return '<span class="status wait">En attente</span>';
   if (it.deal) return `<span class="status deal">Bonne affaire −${it.deal} %</span>`;
+  if (!it.usual) return '<span class="status wait">Historique en cours</span>';
   return '<span class="status">Prix habituel</span>';
 }
 
@@ -335,7 +354,7 @@ function buildLegal() {
   const L = CFG.legal, v = s => (s ? esc(s) : '<em>[à compléter]</em>');
   const missing = Object.entries({ LEGAL_EDITOR: L.editor, LEGAL_ADDRESS: L.address, LEGAL_SIREN: L.siren,
     LEGAL_PHONE: L.phone, LEGAL_EMAIL: L.email }).filter(([, s]) => !s).map(([k]) => k);
-  if (missing.length && !CFG.mock) console.warn(`Mentions légales incomplètes, variables manquantes : ${missing.join(', ')}`);
+  if (missing.length && !CFG.mock) report('warning', `Mentions légales incomplètes, variables manquantes : ${missing.join(', ')}`);
   const body = `<h1>Mentions légales</h1>
 <div class="panel"><h2>Éditeur du site</h2>
 <p>${v(L.editor)}<br>${v(L.address)}<br>SIREN : ${v(L.siren)}<br>Téléphone : ${v(L.phone)}<br>E-mail : ${v(L.email)}</p>
@@ -373,6 +392,12 @@ async function main() {
     console.error('TP_TOKEN manquant. Pour une démo : MOCK=1 node agent.js');
     process.exit(1);
   }
+  if (CFG.tgTest) {
+    const ok = await tgSend(`✅ Test ${esc(CFG.siteName)} : le bot peut publier dans ce canal. Les alertes arriveront ici.`);
+    if (ok) report('notice', 'Telegram : message de test envoyé');
+    else if (!CFG.tgBot || !CFG.tgChat) report('error', 'Telegram : TG_BOT_TOKEN ou TG_CHAT_ID manquant');
+  }
+  if (!CFG.mock) await loadAirlines();
   const history = loadHistory(), today = dayKey(), items = [];
   for (const [i, r] of routes.entries()) {
     const key = `${r.from}-${r.to}`;
@@ -403,6 +428,8 @@ async function main() {
     }
     console.log(`${key.padEnd(8)} ${o ? eur(o.price).padStart(6) : '   –  '}${deal ? `  bonne affaire −${deal} %` : ''}`);
   }
+  const noPrice = items.filter(it => !it.fresh).map(it => it.key);
+  if (noPrice.length) report('warning', `Pas de prix actuel pour : ${noPrice.join(', ')}`);
   saveHistory(history);
   buildSite(items);
   console.log(`Site généré dans ${OUT}`);
