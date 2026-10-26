@@ -152,7 +152,7 @@
     return p.link || null;
   }
   function showTab(v) {
-    if (v !== 'vols' && !PANES[v]) return;
+    if (v !== 'vols' && (!PANES[v] || !$('.tab[data-tab="' + v + '"]', form))) return;
     $$('.tab', form).forEach(function (x) { x.setAttribute('aria-selected', x.dataset.tab === v); });
     var flights = v === 'vols', alt = $('#altPane');
     $('.s-form[data-pane=vols]').hidden = !flights; $('.seg', form).hidden = !flights; $('#soon').hidden = true;

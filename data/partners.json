@@ -1,5 +1,5 @@
 {
- "checkedAt": "2026-10-25T20:53:04.838Z",
+ "checkedAt": "2026-10-26T21:00:02.594Z",
  "brands": {
   "EconomyBookings": {
    "link": "https://tp.media/r?campaign_id=10&marker=795395&p=2018&trs=591037&u=https%3A%2F%2Fwww.economybookings.com%2F",
@@ -25,11 +25,53 @@
    "link": "https://tp.media/r?campaign_id=89&marker=795395&p=2074&trs=591037&u=https%3A%2F%2Fwww.tiqets.com%2F",
    "p": "2074",
    "campaign_id": "89"
+  },
+  "Kiwitaxi": {
+   "link": "https://tp.media/r?campaign_id=1&marker=795395&p=647&trs=591037&u=https%3A%2F%2Fkiwitaxi.com%2F",
+   "p": "647",
+   "campaign_id": "1"
+  },
+  "GetTransfer": {
+   "link": "https://tp.media/r?campaign_id=147&marker=795395&p=4439&trs=591037&u=https%3A%2F%2Fgettransfer.com%2F",
+   "p": "4439",
+   "campaign_id": "147"
+  },
+  "Intui": {
+   "link": "https://tp.media/r?campaign_id=22&marker=795395&p=657&trs=591037&u=https%3A%2F%2Fintui.travel%2F",
+   "p": "657",
+   "campaign_id": "22"
+  },
+  "Welcome Pickups": {
+   "link": "https://tp.media/r?campaign_id=627&marker=795395&p=8919&trs=591037&u=https%3A%2F%2Fwww.welcomepickups.com%2F",
+   "p": "8919",
+   "campaign_id": "627"
+  },
+  "Airalo": {
+   "link": "https://tp.media/r?campaign_id=541&marker=795395&p=8310&trs=591037&u=https%3A%2F%2Fwww.airalo.com%2F",
+   "p": "8310",
+   "campaign_id": "541"
+  },
+  "Yesim": {
+   "link": "https://tp.media/r?campaign_id=224&marker=795395&p=5998&trs=591037&u=https%3A%2F%2Fyesim.app%2F",
+   "p": "5998",
+   "campaign_id": "224"
+  },
+  "Drimsim": {
+   "link": "https://tp.media/r?campaign_id=102&marker=795395&p=2762&trs=591037&u=https%3A%2F%2Fdrimsim.com%2F",
+   "p": "2762",
+   "campaign_id": "102"
+  },
+  "Saily": {
+   "link": "https://tp.media/r?campaign_id=629&marker=795395&p=8979&trs=591037&u=https%3A%2F%2Fsaily.com%2F",
+   "p": "8979",
+   "campaign_id": "629"
   }
  },
  "tabs": {
   "voitures": "EconomyBookings",
   "activites": "Klook",
-  "restaurants": "Klook"
+  "restaurants": "Klook",
+  "transferts": "Kiwitaxi",
+  "esim": "Airalo"
  }
 }
