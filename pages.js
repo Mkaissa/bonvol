@@ -28,10 +28,11 @@ const CATS = [
   ['voitures', 'car', 'Location de voiture', "Récupérez votre voiture à l'aéroport, avec les loueurs locaux et internationaux.", 'Comparer', true],
   ['activites', 'ticket', 'Activités & événements', "Visites, excursions, concerts, billets d'attractions : réservez avant de partir.", 'Découvrir', true],
   ['restaurants', 'food', 'Restaurants', "Bonnes adresses et expériences culinaires, réservables quand c'est possible.", 'Explorer'],
-  [null, 'transfer', 'Transferts aéroport', "Un chauffeur vous attend à l'arrivée, prix fixé à l'avance."],
-  [null, 'sim', 'eSIM & internet', "Joignable dès l'atterrissage, sans frais d'itinérance."],
-  [null, 'shield', 'Assurance voyage', 'Santé, annulation, bagages : partez couvert.'],
+  ['transferts', 'transfer', 'Transferts aéroport', "Un chauffeur vous attend à l'arrivée, prix fixé à l'avance.", 'Réserver'],
+  ['esim', 'sim', 'eSIM & internet', "Joignable dès l'atterrissage, sans frais d'itinérance.", 'Choisir'],
+  ['assurance', 'shield', 'Assurance voyage', 'Santé, annulation, bagages : partez couvert.', 'Comparer'],
 ];
+const LABELS = { hotels: 'hôtels', voitures: 'voitures', activites: 'activités', restaurants: 'restaurants', transferts: 'transferts', esim: 'eSIM', assurance: 'assurance voyage' };
 
 const ICONS = `<svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <symbol id="i-plane" viewBox="0 0 24 24"><path d="M10.5 13.5 3 11l1.5-1.5 7 1L16 6c1-1 3-1.5 3.5-1s0 2.5-1 3.5l-4.5 4.5 1 7L13.5 21 11 13.5"/></symbol>
@@ -64,6 +65,11 @@ const brand = root => `<a class="brand" href="${root}"><span class="brand-mark">
 const flap = (n, cls = '') => `<span class="flap ${cls}" role="img" aria-label="${eur(n)}" data-flap>${[...String(Math.round(n))]
   .map(c => `<i aria-hidden="true">${c}</i>`).join('')}<span class="cur" aria-hidden="true">€</span></span>`;
 const isFresh = it => !!(it.fresh && it.h.best);
+// Un onglet ou une carte n'apparaît que si un partenaire est actif (tout est montré en démo).
+const active = k => k === 'vols' || !!ctx.partnerCfg[k] || ctx.CFG.mock;
+const tabs = () => TABS.filter(([k]) => active(k));
+const services = () => CATS.filter(([k]) => active(k)).map(([k]) => LABELS[k]);
+const joinFr = a => (a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} et ${a[a.length - 1]}`);
 const byPrice = (a, b) => a.h.best.price - b.h.best.price;
 function mapPos(code) {
   if (MAP[code]) return MAP[code];
@@ -96,7 +102,7 @@ ${footer(root)}
 function nav(root) {
   const tg = ctx.CFG.tgPublic;
   return `<header class="nav">${brand(root)}<ul>
-${TABS.map(([k, , label]) => `<li><a href="${root}#${k}">${label}</a></li>`).join('')}<li><a href="${root}#destinations">Destinations</a></li></ul>
+${tabs().map(([k, , label]) => `<li><a href="${root}#${k}">${label}</a></li>`).join('')}<li><a href="${root}#destinations">Destinations</a></li></ul>
 ${tg ? `<a class="alerts" href="${esc(tg)}">${icon('send')}Alertes Telegram</a>` : ''}</header>`;
 }
 
@@ -105,7 +111,7 @@ function footer(root) {
   return `<footer><div class="wrap"><div class="f-grid">
 <div>${brand(root)}<p style="margin:18px 0 0;max-width:34ch">Les vols pas chers entre l'Europe, l'Afrique et le Maghreb, surveillés chaque heure.</p></div>
 <div><h4>Destinations</h4><ul>${ctx.dests.slice(0, 6).map(d => `<li><a href="${root}destinations/${d.slug}.html">${esc(d.name)}</a></li>`).join('')}</ul></div>
-<div><h4>Voyager</h4><ul>${TABS.map(([k, , label]) => `<li><a href="${root}#${k}">${label}</a></li>`).join('')}</ul></div>
+<div><h4>Voyager</h4><ul>${tabs().map(([k, , label]) => `<li><a href="${root}#${k}">${label}</a></li>`).join('')}</ul></div>
 <div><h4>${esc(CFG.siteName)}</h4><ul><li><a href="${root}#comment">Comment ça marche</a></li>${tg ? `<li><a href="${esc(tg)}">Alertes Telegram</a></li>` : ''}
 <li><a href="${root}mentions-legales.html">Mentions légales</a></li><li><a href="${root}mentions-legales.html#credits">Crédits photos</a></li></ul></div>
 </div><p class="legal">Les prix proviennent de recherches récentes et sont confirmés au moment du clic chez le partenaire de réservation.
@@ -122,7 +128,7 @@ function searchCard({ from = 'PAR', to = 'DKR', dest = to, chips = [] }) {
   const destChips = ctx.dests.slice(0, 5).map(d => `<button type="button" class="chip" data-c="${d.code}">${esc(d.name)}</button>`).join('');
   return `<form class="search" id="recherche" data-dest="${dest}" autocomplete="off">
 <div class="s-top" role="tablist" aria-label="Que cherchez-vous ?">
-${TABS.map(([k, ic, label], i) => `<button type="button" class="tab" role="tab" aria-selected="${i === 0}" data-tab="${k}">${icon(ic)}<span>${label}</span></button>`).join('')}
+${tabs().map(([k, ic, label], i) => `<button type="button" class="tab" role="tab" aria-selected="${i === 0}" data-tab="${k}">${icon(ic)}<span>${label}</span></button>`).join('')}
 <div class="seg" role="group" aria-label="Type de voyage"><button type="button" aria-pressed="true" data-trip="rt">Aller-retour</button><button type="button" aria-pressed="false" data-trip="ow">Aller simple</button></div></div>
 <div class="s-form" data-pane="vols"><div class="cities">${city('from', 'from', 'Départ', from)}
 <button type="button" class="swap" aria-label="Inverser départ et arrivée">${icon('swap')}</button>${city('to', 'to', 'Arrivée', to)}</div>
@@ -192,10 +198,16 @@ ${ph ? `<img src="${root}assets/img/${d.code}.webp" alt="${esc(ph.alt)}" loading
 }
 
 function cats(dest) {
-  return `<div class="cats">${CATS.map(([tab, ic, title, text, cta, big]) => {
+  const list = CATS.filter(([k]) => active(k));
+  if (!list.length) return '';
+  const nBig = list.filter(c => c[5]).length, nSmall = list.length - nBig;
+  const uniform = list.length <= 4; // peu de cartes : toutes de la même taille, sur une ligne
+  return `<div class="cats">${list.map(([k, ic, title, text, cta, isBig]) => {
+    const big = uniform || isBig, span = uniform ? 12 / list.length : 12 / Math.min(isBig ? nBig : nSmall, isBig ? 3 : 4);
     const inner = `<span class="ico">${icon(ic)}</span><h3>${esc(title)}</h3><p>${esc(text)}</p>`;
-    return tab ? `<a class="cat${big ? ' big' : ''} reveal" href="#${tab}">${inner}<span class="more">${cta}${dest ? ` à ${esc(dest)}` : ''}${icon('arrow')}</span></a>`
-      : `<div class="cat reveal">${inner}<span class="more" style="color:var(--muted)">Bientôt disponible</span></div>`;
+    const isTab = TABS.some(([t]) => t === k), p = ctx.partnerCfg[k];
+    return isTab ? `<a class="cat${big ? ' big' : ''} reveal" href="#${k}" style="--span:${span}">${inner}<span class="more">${cta}${dest ? ` à ${esc(dest)}` : ''}${icon('arrow')}</span></a>`
+      : `<a class="cat reveal" href="${esc(p?.link || '#')}" rel="sponsored nofollow" target="_blank" style="--span:${span}">${inner}<span class="more">${cta}${p ? ` avec ${esc(p.brand)}` : ''}${icon('arrow')}</span></a>`;
   }).join('')}</div>`;
 }
 
@@ -247,9 +259,9 @@ Départ le ${esc(ctx.frDate(b.departure_at, { day: 'numeric', month: 'long' }))}
 <a class="btn-amber" href="${esc(CFG.tgPublic)}">${icon('send')}Rejoindre le canal</a></div>
 <div class="phone" aria-hidden="true"><div class="screen"><div class="tg-head"><span class="tg-av">${PLANE}</span><div><b>${esc(CFG.siteName)} – vols pas chers</b><span>canal · alertes</span></div></div>
 <div class="tg-body">${bubbles}</div></div></div></section>` : '';
-  const day = `<section id="destinations">${secHead('Destinations', 'Où rentrez-vous <em>cette fois ?</em>', 'Vols, hôtels, voitures, activités et restaurants : tout ce qu\'il faut pour votre séjour, au meilleur prix relevé.')}
+  const day = `<section id="destinations">${secHead('Destinations', 'Où rentrez-vous <em>cette fois ?</em>', `${cap(joinFr(['vols', ...services()]))} : tout ce qu'il faut pour votre séjour, au meilleur prix relevé.`)}
 <div class="dest-grid">${ctx.dests.map((d, i) => destCard(d, './', i)).join('')}</div></section>
-<section id="sur-place">${secHead('Sur place', 'Tout le voyage, <em>au même endroit.</em>', 'Une fois le billet trouvé, comparez le reste chez nos partenaires, sans surcoût pour vous.')}${cats()}</section>
+${services().length ? `<section id="sur-place">${secHead('Sur place', 'Tout le voyage, <em>au même endroit.</em>', 'Une fois le billet trouvé, comparez le reste chez nos partenaires, sans surcoût pour vous.')}${cats()}</section>` : ''}
 <section id="comment">${secHead('Comment ça marche', 'Un agent qui veille <em>pour vous.</em>')}<div class="steps">
 ${[['On relève les prix', "Chaque heure, l'agent interroge les compagnies sur les trois prochains mois, pour chaque trajet."],
     ['On les compare', "Chaque prix est confronté à l'historique du trajet : on sait s'il est vraiment bas, ou juste habituel."],
@@ -258,7 +270,7 @@ ${[['On relève les prix', "Chaque heure, l'agent interroge les compagnies sur l
 ${tg}`;
   return page({
     title: `Vols pas chers vers l'Afrique et le Maghreb | ${CFG.siteName}`,
-    desc: `Vols, hôtels, voitures et activités vers ${names.join(', ')} et plus. Prix surveillés chaque heure, alertes sur les vraies baisses.`,
+    desc: `${cap(joinFr(['vols', ...services()]))} vers ${names.join(', ')} et plus. Prix surveillés chaque heure, alertes sur les vraies baisses.`,
     canonical: `${CFG.siteUrl}/`, root: './', night, day,
   });
 }
@@ -289,7 +301,7 @@ function buildRoute(it) {
   const others = ctx.items.filter(x => x.r.to === r.to && x !== it);
   const day = `<section class="two"><div class="panel reveal"><h2>Le prix le plus bas, <em>jour par jour</em></h2>${chartSvg(h.days.slice(-60))}</div>
 <div class="panel faq reveal"><h2>Questions fréquentes</h2>${faq.map(([q, a], i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></section>
-<section>${secHead('Sur place', `Votre séjour <em>à ${esc(r.toName)}</em>`, `Hôtels, voitures, activités et restaurants à ${esc(r.toName)}, chez nos partenaires.`)}${cats(r.toName)}</section>
+${services().length ? `<section>${secHead('Sur place', `Votre séjour <em>à ${esc(r.toName)}</em>`, `${cap(joinFr(services()))} à ${esc(r.toName)}, chez nos partenaires.`)}${cats(r.toName)}</section>` : ''}
 ${others.length ? `<section>${secHead(`Vers ${esc(r.toName)}`, 'Les autres <em>départs</em>')}${board(others, { root: '../' })}</section>` : ''}
 <section>${secHead('Destinations', 'Ailleurs, <em>au même prix ?</em>')}<div class="dest-grid">${ctx.dests.filter(x => x.code !== r.to).slice(0, 4).map((x, i) => destCard(x, '../', i)).join('')}</div></section>`;
   return page({
@@ -303,13 +315,13 @@ function buildDest(d) {
   const { CFG } = ctx, ph = CREDITS[d.code], cheapest = d.items.filter(isFresh).sort(byPrice)[0];
   const night = `<p class="crumb"><a href="../">Accueil</a><span>/</span><a href="../#destinations">Destinations</a><span>/</span>${esc(d.name)}</p>
 <section class="hero"><div><span class="country">${esc(d.country)}</span><h1>Voyage à <em>${esc(d.name)}</em></h1>
-<p class="lede">${d.min ? `Vols dès ${eur(d.min)} depuis ${esc(d.origins.join(', '))}, ` : ''}et tout pour votre séjour : hôtels, voitures, activités et restaurants.</p></div></section>
+<p class="lede">${d.min ? `Vols dès ${eur(d.min)} depuis ${esc(d.origins.join(', '))}` : `Vols depuis ${esc(d.origins.join(', '))}`}${services().length ? `, et tout pour votre séjour : ${esc(joinFr(services()))}.` : '.'}</p></div></section>
 <div class="page-search">${searchCard({ from: cheapest?.r.from || d.items[0].r.from, to: d.code, chips: d.items.filter(isFresh).sort(byPrice).slice(0, 3) })}</div>`;
   const day = `<section>${secHead(`Vers ${esc(d.name)}`, `Les vols <em>du moment</em>`, 'Le prix le plus bas trouvé pour un aller simple, relevé chaque heure.')}${board(d.items, { root: '../' })}</section>
-<section>${secHead('Sur place', `Votre séjour <em>à ${esc(d.name)}</em>`, `Hôtels, voitures, activités et restaurants à ${esc(d.name)}, chez nos partenaires.`)}${cats(d.name)}</section>
+${services().length ? `<section>${secHead('Sur place', `Votre séjour <em>à ${esc(d.name)}</em>`, `${cap(joinFr(services()))} à ${esc(d.name)}, chez nos partenaires.`)}${cats(d.name)}</section>` : ''}
 <section>${secHead('Destinations', 'Ailleurs, <em>au même prix ?</em>')}<div class="dest-grid">${ctx.dests.filter(x => x.code !== d.code).slice(0, 4).map((x, i) => destCard(x, '../', i)).join('')}</div></section>`;
   return page({
-    title: `Voyage à ${d.name} : vols${d.min ? ` dès ${eur(d.min)}` : ''}, hôtels, voitures | ${CFG.siteName}`,
+    title: `Voyage à ${d.name} : vols${d.min ? ` dès ${eur(d.min)}` : ''}${services().length ? `, ${services().slice(0, 2).join(', ')}` : ''} | ${CFG.siteName}`,
     desc: `Vols pas chers vers ${d.name} (${d.country}) depuis ${d.origins.join(', ')}, prix surveillés chaque heure, et tout pour votre séjour.`,
     canonical: `${CFG.siteUrl}/destinations/${d.slug}.html`, root: '../', nightClass: 'page dest-hero',
     nightBg: ph ? `<img src="../assets/img/${d.code}.webp" alt="" aria-hidden="true">` : '', night, day,

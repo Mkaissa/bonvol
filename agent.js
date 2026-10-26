@@ -150,12 +150,18 @@ const BRANDS = {
   DiscoverCars: 'https://www.discovercars.com/', EconomyBookings: 'https://www.economybookings.com/', QEEQ: 'https://www.qeeq.com/',
   Localrent: 'https://localrent.com/', GetYourGuide: 'https://www.getyourguide.com/', Klook: 'https://www.klook.com/',
   Tiqets: 'https://www.tiqets.com/', Viator: 'https://www.viator.com/', Tripadvisor: 'https://www.tripadvisor.com/',
+  Kiwitaxi: 'https://kiwitaxi.com/', GetTransfer: 'https://gettransfer.com/', Intui: 'https://intui.travel/', 'Welcome Pickups': 'https://www.welcomepickups.com/',
+  Airalo: 'https://www.airalo.com/', Yesim: 'https://yesim.app/', Drimsim: 'https://drimsim.com/', Saily: 'https://saily.com/',
+  EKTA: 'https://ektatraveling.com/', SafetyWing: 'https://safetywing.com/', VisitorsCoverage: 'https://www.visitorscoverage.com/', Insubuy: 'https://www.insubuy.com/',
 };
 const TAB_BRANDS = {
   hotels: ['Booking.com', 'Agoda', 'Trip.com', 'Expedia', 'Hotels.com', 'Vrbo', 'Vio.com', 'Hostelworld'],
   voitures: ['DiscoverCars', 'EconomyBookings', 'QEEQ', 'Localrent'],
   activites: ['GetYourGuide', 'Klook', 'Viator', 'Tiqets'],
   restaurants: ['Tripadvisor', 'GetYourGuide', 'Klook'],
+  transferts: ['Kiwitaxi', 'GetTransfer', 'Intui', 'Welcome Pickups'],
+  esim: ['Airalo', 'Yesim', 'Drimsim', 'Saily'],
+  assurance: ['EKTA', 'SafetyWing', 'VisitorsCoverage', 'Insubuy'],
 };
 async function discoverPartners() {
   const old = fs.existsSync(PARTNERS_FILE) ? JSON.parse(fs.readFileSync(PARTNERS_FILE, 'utf8')) : null;
