@@ -197,9 +197,9 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radiu
 .dest .via{display:block;margin-top:10px;font-size:13px;opacity:.85}
 
 .cats{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
-.cat{grid-column:span 3;position:relative;display:flex;flex-direction:column;align-items:flex-start;padding:28px;border-radius:22px;background:var(--card);
+.cat{grid-column:span var(--span,3);position:relative;display:flex;flex-direction:column;align-items:flex-start;padding:28px;border-radius:22px;background:var(--card);
   box-shadow:0 0 0 1px var(--line);transition:box-shadow .3s,transform .3s var(--ease)}
-.cat.big{grid-column:span 4}
+.cat.big{grid-column:span var(--span,4)}
 .cat:hover{transform:translateY(-3px);box-shadow:0 0 0 1px var(--line),0 24px 44px -26px rgba(15,24,40,.4)}
 .cat .ico{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;color:var(--rust);background:#FDEBD9;margin-bottom:22px}
 .cat .ico svg{width:26px;height:26px}
