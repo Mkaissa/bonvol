@@ -273,6 +273,18 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radiu
 .credits-list a{text-decoration:underline;text-decoration-color:var(--line)}
 .todo{color:var(--rust);font-style:normal;font-weight:600}
 
+/* page Recherche (moteur Travelpayouts) */
+.wl-consent{max-width:760px;margin:0 auto 32px}
+.wl-consent p{color:var(--muted);margin:0 0 12px}
+.wl-consent a{text-decoration:underline;text-decoration-color:var(--line)}
+.wl-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:22px 0 6px}
+.wl-actions .btn-amber{margin-top:0}
+.wl-out{margin-top:16px!important;padding:12px 14px;border-radius:12px;background:var(--paper)}
+.wl{min-height:120px}
+#tpwl-search{margin:0 0 28px}
+.wl-help{margin:28px 0 0;text-align:center;font-size:14px;color:var(--muted)}
+.wl-help a{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--line)}
+
 footer{padding:80px 0 48px;color:var(--muted);font-size:15px}
 .f-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid var(--line)}
 footer .brand{color:var(--ink)}footer .brand em{color:var(--rust)}
