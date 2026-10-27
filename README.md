@@ -1,6 +1,6 @@
 # BonVol : vols pas chers Europe ↔ Afrique & Maghreb
 
-Un agent relève les prix chaque heure, détecte les vraies baisses, publie
+Un agent relève les prix plusieurs fois par jour, détecte les vraies baisses, publie
 une alerte Telegram et regénère le site (une page optimisée Google par trajet).
 Coût : le nom de domaine. Tout le reste est gratuit.
 

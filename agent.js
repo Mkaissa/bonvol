@@ -29,7 +29,9 @@ const CFG = {
   monthsAhead: 3,      // mois de départ surveillés
   dealRatio: 0.75,     // bonne affaire = prix <= 75 % du prix habituel
   minHistory: 7,       // jours d'historique avant de déclarer une bonne affaire
-  freshHours: 6,       // au-delà, un prix n'est plus affiché comme actuel
+  freshHours: 12,      // au-delà, un prix n'est plus affiché comme actuel (GitHub ne lance l'agent que toutes les 3 à 7 h)
+  wlId: process.env.TP_WL_ID || '23936',   // moteur de recherche White Label (page Recherche)
+  gscVerification: process.env.GSC_VERIFICATION || '',   // code de validation Google Search Console
   legal: {             // mentions légales (obligatoires dès qu'on touche des commissions)
     editor: process.env.LEGAL_EDITOR || '',
     address: process.env.LEGAL_ADDRESS || '',
