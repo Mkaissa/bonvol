@@ -52,6 +52,41 @@
     var sort = $('#sort'); if (sort) sort.addEventListener('change', function () { state.sort = sort.value; render(); });
   }
 
+  /* page Recherche : moteur Travelpayouts, chargé seulement après accord pour ses cookies */
+  var CONSENT = 'bv-consent';
+  var aviasales = function (code) {
+    var u = 'https://www.aviasales.com/' + (code ? 'search/' + code : '');
+    return 'https://tp.media/r?marker=' + cfg.marker + (cfg.trs ? '&trs=' + cfg.trs : '') + '&p=4114&u=' + encodeURIComponent(u) + '&campaign_id=100';
+  };
+  var wl = $('#wl');
+  if (wl) {
+    var box = $('#wlConsent'), choice = null;
+    try { choice = JSON.parse(localStorage.getItem(CONSENT)); } catch (e) { /* pas de choix enregistré */ }
+    if (choice && Date.now() - choice.t > 182 * 864e5) choice = null;
+    var loadWl = function () {
+      box.hidden = true;
+      var s = document.createElement('script'); s.type = 'module'; s.async = true;
+      s.src = 'https://tpwidg.com/wl_web/main.js?wl_id=' + cfg.wl; document.head.appendChild(s);
+      // Lien de secours vers la même recherche chez Aviasales (affilié), si le moteur ne s'affiche pas.
+      $('#wlHelp').hidden = false;
+      $('#wlHelpLink').href = aviasales(new URLSearchParams(location.search).get('flightSearch') || '');
+    };
+    var refuse = function () {
+      box.hidden = false; $('#wlOut').hidden = false;
+      $('#wlOutLink').href = aviasales(new URLSearchParams(location.search).get('flightSearch') || '');
+    };
+    if (choice && choice.ok) loadWl(); else if (choice) refuse(); else box.hidden = false;
+    $$('[data-consent]', box).forEach(function (b) { b.addEventListener('click', function () {
+      var ok = b.dataset.consent === '1';
+      try { localStorage.setItem(CONSENT, JSON.stringify({ ok: ok, t: Date.now() })); } catch (e) { /* stockage indisponible */ }
+      if (ok) loadWl(); else refuse();
+    }); });
+  }
+  $$('.js-reset-consent').forEach(function (b) { b.addEventListener('click', function () {
+    try { localStorage.removeItem(CONSENT); } catch (e) { /* stockage indisponible */ }
+    b.textContent = 'Choix effacé : il vous sera redemandé sur la page Recherche.';
+  }); });
+
   /* module de recherche */
   var form = $('#recherche');
   if (!form) return;
@@ -104,9 +139,10 @@
     var f = $('#from').dataset.code, t = $('#to').dataset.code;
     if (!f || !t) { (f ? $('#to') : $('#from')).focus(); return; }
     var ddmm = function (s) { return s.slice(8, 10) + s.slice(5, 7); };
-    var u = 'https://www.aviasales.com/search/' + f + ddmm(dep.value) + t + (trip === 'rt' ? ddmm(ret.value) : '') + $('#pax').value;
-    var q = 'marker=' + cfg.marker + (cfg.trs ? '&trs=' + cfg.trs : '') + '&p=4114&u=' + encodeURIComponent(u) + '&campaign_id=100';
-    window.open('https://tp.media/r?' + q, '_blank', 'noopener');
+    var code = f + ddmm(dep.value) + t + (trip === 'rt' ? ddmm(ret.value) : '') + $('#pax').value;
+    // Résultats sur BonVol (page Recherche) ; sans moteur configuré, chez Aviasales.
+    if (cfg.wl) location.href = (form.dataset.root || './') + 'recherche.html?flightSearch=' + code;
+    else window.open(aviasales(code), '_blank', 'noopener');
   });
 
   /* autres onglets : recherche envoyée chez le partenaire retenu par l'agent, avec un lien affilié */
