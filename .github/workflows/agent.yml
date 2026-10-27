@@ -48,6 +48,7 @@ jobs:
           LEGAL_PHONE: ${{ vars.LEGAL_PHONE }}
           LEGAL_EMAIL: ${{ vars.LEGAL_EMAIL }}
           HOST_PHONE: ${{ vars.HOST_PHONE }}
+          GSC_VERIFICATION: ${{ vars.GSC_VERIFICATION }}
       - name: Publier les mises à jour
         run: |
           git config user.name "agent-prix"
