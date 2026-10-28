@@ -5,7 +5,7 @@
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var CITIES = window.BV_CITIES || [];
-  var NAME = {}; CITIES.forEach(function (c) { NAME[c[2]] = c[0]; });
+  var NAME = {}, COUNTRY = {}; CITIES.forEach(function (c) { NAME[c[2]] = c[0]; COUNTRY[c[2]] = c[1]; });
   var cfg = document.body.dataset;
 
   /* chiffres à palettes : court défilement avant de se fixer */
@@ -82,9 +82,26 @@
       if (ok) loadWl(); else refuse();
     }); });
   }
+  /* carte des hôtels (Stay22) : accord propre à ce partenaire */
+  var CONSENT_MAP = 'bv-consent-s22';
+  var showMap = function (box) {
+    var f = document.createElement('iframe');
+    f.src = box.dataset.map; f.title = box.dataset.title || 'Carte des hôtels'; f.loading = 'lazy'; f.allow = 'geolocation';
+    box.innerHTML = ''; box.appendChild(f);
+  };
+  var mapOk = false;
+  try { var mc = JSON.parse(localStorage.getItem(CONSENT_MAP)); mapOk = !!(mc && mc.ok && Date.now() - mc.t < 182 * 864e5); } catch (e) { /* pas de choix */ }
+  $$('.map-box').forEach(function (box) {
+    if (mapOk) { showMap(box); return; }
+    $('.js-map-load', box).addEventListener('click', function () {
+      try { localStorage.setItem(CONSENT_MAP, JSON.stringify({ ok: true, t: Date.now() })); } catch (e) { /* stockage indisponible */ }
+      showMap(box);
+    });
+  });
+
   $$('.js-reset-consent').forEach(function (b) { b.addEventListener('click', function () {
-    try { localStorage.removeItem(CONSENT); } catch (e) { /* stockage indisponible */ }
-    b.textContent = 'Choix effacé : il vous sera redemandé sur la page Recherche.';
+    try { localStorage.removeItem(CONSENT); localStorage.removeItem(CONSENT_MAP); } catch (e) { /* stockage indisponible */ }
+    b.textContent = 'Choix effacé : il vous sera redemandé avant d\'afficher un module partenaire.';
   }); });
 
   /* module de recherche */
@@ -149,7 +166,7 @@
   var PARTNERS = {}; try { PARTNERS = JSON.parse(cfg.partners || '{}'); } catch (e) { /* aucun partenaire */ }
   var PAX = [['2 adultes', '2,0'], ['1 adulte', '1,0'], ['2 adultes, 1 enfant', '2,1'], ['2 adultes, 2 enfants', '2,2'], ['Famille (5 et +)', '2,3']];
   var PANES = {
-    hotels: { go: 'Voir les hôtels', fields: [['Destination', 'city'], ['Arrivée', 'date', 30, 'd1'], ['Départ', 'date', 37, 'd2'], ['Voyageurs', 'sel', PAX, 'pax']] },
+    hotels: { go: 'Voir les hébergements', fields: [['Destination', 'city'], ['Arrivée', 'date', 30, 'd1'], ['Départ', 'date', 37, 'd2'], ['Voyageurs', 'sel', PAX, 'pax'], ['Type', 'sel', [['Hôtels', 'hotel'], ['Appartements & maisons', 'location']], 'type']] },
     voitures: { go: 'Voir les voitures', fields: [['Prise en charge', 'city'], ['Début', 'date', 30, 'd1'], ['Fin', 'date', 37, 'd2'], ['Conducteur', 'sel', [['30 à 65 ans', '30'], ['25 à 29 ans', '25'], ['Plus de 65 ans', '66']], 'age']] },
     activites: { go: 'Voir les activités', fields: [['Destination', 'city'], ['Date', 'date', 31, 'd1'], ['Envie', 'sel', [['Tout voir', ''], ['Visites & culture', 'visite'], ['Excursions', 'excursion'], ['Plages & nature', 'plage'], ['Concerts & événements', 'concert']], 'envie']] },
     restaurants: { go: 'Voir les restaurants', fields: [['Ville', 'city'], ['Envie', 'sel', [['Restaurants', 'restaurants'], ['Cuisine locale', 'cuisine locale'], ['Cours de cuisine & food tours', 'food tour']], 'envie']] },
@@ -175,14 +192,27 @@
   }
   function values(alt, tab) {
     var v = {};
-    $$('[data-role]', alt).forEach(function (el) { v[el.dataset.role] = el.dataset.role === 'city' ? (NAME[el.dataset.code] || el.value) : el.value; });
+    $$('[data-role]', alt).forEach(function (el) {
+      v[el.dataset.role] = el.dataset.role === 'city' ? (NAME[el.dataset.code] || el.value) : el.value;
+      if (el.dataset.role === 'city') v.country = COUNTRY[el.dataset.code] || '';
+    });
     var pax = (v.pax || '2,0').split(','); v.adults = pax[0]; v.children = pax[1];
     if (v.d1 && v.d2) v.nights = Math.max(1, Math.round((new Date(v.d2) - new Date(v.d1)) / 864e5));
     v.query = tab === 'restaurants' ? (v.envie + ' ' + v.city) : (v.city + ' ' + (v.envie || '')).trim();
     return v;
   }
+  // Stay22 « Allez » : redirection vers le meilleur site (Booking, Expedia, Hotels.com, Vrbo, GetYourGuide) avec le suivi BonVol.
+  function stay22Link(tab, p, v) {
+    var endpoint = tab === 'activites' ? 'getyourguide' : v.type === 'location' ? 'vrbo' : 'roam';
+    var q = 'aid=' + enc(p.stay22) + '&address=' + enc(v.city + (v.country ? ', ' + v.country : '')) + '&lang=fr&currency=EUR&campaign=bonvol_' + tab;
+    if (v.d1) q += '&checkin=' + v.d1;
+    if (v.d2) q += '&checkout=' + v.d2;
+    if (tab === 'hotels') q += '&adults=' + v.adults + '&children=' + v.children;
+    return 'https://www.stay22.com/allez/' + endpoint + '?' + q;
+  }
   function partnerLink(tab, alt) {
     var p = PARTNERS[tab]; if (!p) return null;
+    if (p.stay22) return stay22Link(tab, p, values(alt, tab));
     var target = BUILD[p.brand] ? BUILD[p.brand](values(alt, tab)) : null;
     if (target && p.p && p.campaign_id) return 'https://tp.media/r?marker=' + cfg.marker + (cfg.trs ? '&trs=' + cfg.trs : '') + '&p=' + p.p + '&u=' + enc(target) + '&campaign_id=' + p.campaign_id;
     return p.link || null;
