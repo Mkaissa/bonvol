@@ -52,6 +52,14 @@ Ces deux emplacements sont exclus de git (`.gitignore`).
 - `static/` : feuille de style, code du navigateur et photos des villes (copiés dans `docs/assets/`).
 - `villes.json` : villes proposées dans le module de recherche (nom, pays, code, coordonnées).
 
+## Partenaires hors vols
+
+- **Travelpayouts** : l'agent teste chaque semaine les marques ouvertes au projet (voitures, transferts, eSIM, trains…)
+  et n'affiche que celles qui sont acceptées. Case « Revérifier les partenaires » dans Run workflow pour forcer.
+- **Stay22** (identifiant `bonvol`, variable `STAY22_AID`) : onglet Hôtels (Booking.com, Expedia, Hotels.com,
+  locations Vrbo), activités GetYourGuide, et carte des hôtels sur chaque page destination
+  (affichée seulement après accord pour les cookies).
+
 ## Ajouter des trajets
 
 Ajoute une ligne dans `routes.json` (codes IATA de ville ou d'aéroport).

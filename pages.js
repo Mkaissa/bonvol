@@ -31,8 +31,9 @@ const CATS = [
   ['transferts', 'transfer', 'Transferts aéroport', "Un chauffeur vous attend à l'arrivée, prix fixé à l'avance.", 'Réserver'],
   ['esim', 'sim', 'eSIM & internet', "Joignable dès l'atterrissage, sans frais d'itinérance.", 'Choisir'],
   ['assurance', 'shield', 'Assurance voyage', 'Santé, annulation, bagages : partez couvert.', 'Comparer'],
+  ['trains', 'train', 'Trains & bus', "Rejoindre l'aéroport ou voyager sur place, billets comparés.", 'Réserver'],
 ];
-const LABELS = { hotels: 'hôtels', voitures: 'voitures', activites: 'activités', restaurants: 'restaurants', transferts: 'transferts', esim: 'eSIM', assurance: 'assurance voyage' };
+const LABELS = { hotels: 'hôtels', voitures: 'voitures', activites: 'activités', restaurants: 'restaurants', transferts: 'transferts', esim: 'eSIM', assurance: 'assurance voyage', trains: 'trains et bus' };
 
 const ICONS = `<svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <symbol id="i-plane" viewBox="0 0 24 24"><path d="M10.5 13.5 3 11l1.5-1.5 7 1L16 6c1-1 3-1.5 3.5-1s0 2.5-1 3.5l-4.5 4.5 1 7L13.5 21 11 13.5"/></symbol>
@@ -47,6 +48,7 @@ const ICONS = `<svg width="0" height="0" style="position:absolute" aria-hidden="
 <symbol id="i-send" viewBox="0 0 24 24"><path d="m21 3-9.5 9.5M21 3l-6.5 18-3-8.5L3 9.5z"/></symbol>
 <symbol id="i-transfer" viewBox="0 0 24 24"><path d="M4 17V9a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v8M4 13h16M7 17v2M17 17v2"/></symbol>
 <symbol id="i-sim" viewBox="0 0 24 24"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><rect x="9" y="11" width="6" height="6" rx="1"/></symbol>
+<symbol id="i-train" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="13" rx="3"/><path d="M5 10h14M8 19l-2 2M16 19l2 2M9 13h.01M15 13h.01"/></symbol>
 <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 4 3 7.5 7 9 4-1.5 7-5 7-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
 </svg>`;
 const PLANE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>';
@@ -219,6 +221,20 @@ function cats(dest) {
   }).join('')}</div>`;
 }
 
+// Carte interactive des hôtels et locations (Stay22), affichée seulement après accord pour les cookies.
+function hotelsMap(d) {
+  const { CFG } = ctx, c = CITY[d.code];
+  if (!CFG.stay22) return '';
+  const plus = n => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+  const q = new URLSearchParams({ aid: CFG.stay22, address: `${d.name}, ${d.country}`, ...(c && { lat: c.lat, lng: c.lon }),
+    checkin: plus(30), checkout: plus(37), adults: '2', maincolor: 'C2410C', viewmode: 'all', listviewexpand: 'true', scroll: 'disabled',
+    campaign: `bonvol_${d.slug.replace(/-/g, '_')}` });
+  return `<section id="ou-dormir">${secHead('Où dormir', `Hôtels et locations <em>à ${esc(d.name)}</em>`, 'Les hébergements disponibles sur la carte, avec les prix de Booking.com, Expedia, Hotels.com et Vrbo.')}
+<div class="panel map-box reveal" data-map="${esc(`https://www.stay22.com/embed/gm?${q}`)}" data-title="Carte des hôtels à ${esc(d.name)}">
+<div class="map-consent"><p>La carte est fournie par notre partenaire Stay22. Pour l'afficher, il dépose des cookies qui mesurent les réservations faites depuis ${esc(CFG.siteName)}.</p>
+<button type="button" class="btn-amber js-map-load">Afficher la carte des hôtels${icon('arrow')}</button></div></div></section>`;
+}
+
 const secHead = (kicker, title, text = '', extra = '') => `<div class="sec-head reveal"><div><p class="kicker">${kicker}</p><h2>${title}</h2>${text ? `<p>${text}</p>` : ''}</div>${extra}</div>`;
 
 function chartSvg(days) {
@@ -325,6 +341,7 @@ function buildDest(d) {
 <p class="lede">${d.min ? `Vols dès ${eur(d.min)} depuis ${esc(d.origins.join(', '))}` : `Vols depuis ${esc(d.origins.join(', '))}`}${services().length ? `, et tout pour votre séjour : ${esc(joinFr(services()))}.` : '.'}</p></div></section>
 <div class="page-search">${searchCard({ root: '../', from: cheapest?.r.from || d.items[0].r.from, to: d.code, chips: d.items.filter(isFresh).sort(byPrice).slice(0, 3) })}</div>`;
   const day = `<section>${secHead(`Vers ${esc(d.name)}`, `Les vols <em>du moment</em>`, 'Le prix le plus bas trouvé pour un aller simple, relevé plusieurs fois par jour.')}${board(d.items, { root: '../' })}</section>
+${hotelsMap(d)}
 ${services().length ? `<section>${secHead('Sur place', `Votre séjour <em>à ${esc(d.name)}</em>`, `${cap(joinFr(services()))} à ${esc(d.name)}, chez nos partenaires.`)}${cats(d.name)}</section>` : ''}
 <section>${secHead('Destinations', 'Ailleurs, <em>au même prix ?</em>')}<div class="dest-grid">${shownDests().filter(x => x.code !== d.code).slice(0, 4).map((x, i) => destCard(x, '../', i)).join('')}</div></section>`;
   return page({
@@ -370,7 +387,7 @@ function buildLegal() {
 <div class="panel"><h2>Prix affichés</h2><p>Les prix proviennent de recherches récentes effectuées sur Aviasales. Ils peuvent avoir changé depuis : le prix et la disponibilité sont confirmés au moment du clic chez le partenaire de réservation.</p></div>
 <div class="panel"><h2>Liens affiliés</h2><p>Certains liens sont affiliés : si vous réservez après un clic, ${esc(CFG.siteName)} touche une commission, sans surcoût pour vous.</p></div>
 <div class="panel wide"><h2>Données personnelles</h2><p>Ce site ne mesure pas l'audience. Les polices de caractères sont chargées depuis Google Fonts : votre navigateur contacte alors les serveurs de Google. Les liens « Voir ce vol » et les partenaires vous redirigent vers leurs sites, dont la politique de confidentialité s'applique ensuite.</p></div>
-<div class="panel wide" id="cookies"><h2>Cookies</h2><p>Le site ne dépose aucun cookie, sauf sur la page Recherche et seulement si vous l'acceptez : le moteur de recherche de notre partenaire Travelpayouts (Aviasales) dépose alors des cookies qui mesurent les réservations faites depuis ${esc(CFG.siteName)}. Votre choix est conservé 6 mois sur votre appareil.</p>
+<div class="panel wide" id="cookies"><h2>Cookies</h2><p>Le site ne dépose aucun cookie, sauf si vous acceptez d'afficher les modules de nos partenaires : le moteur de recherche de vols de Travelpayouts (Aviasales), sur la page Recherche, et la carte des hôtels de Stay22, sur les pages destinations. Ils déposent alors des cookies qui mesurent les réservations faites depuis ${esc(CFG.siteName)}. Votre choix est conservé 6 mois sur votre appareil.</p>
 <p><button type="button" class="chip js-reset-consent">Modifier mon choix</button></p></div>
 ${credits ? `<div class="panel wide" id="credits"><h2>Crédits photos</h2><ul class="credits-list">${credits}</ul><p style="margin-top:14px">Photos sous licence libre, via Wikimedia Commons.</p></div>` : ''}
 </div>`;
@@ -394,6 +411,10 @@ function buildSite(items, context) {
   for (const d of dests) { const p = d.items.filter(isFresh).map(it => it.h.best.price); d.min = p.length ? Math.min(...p) : null; }
   const pt = ctx.partners || {};
   const partnerCfg = Object.fromEntries(Object.entries(pt.tabs || {}).map(([tab, brand]) => [tab, { brand, ...pt.brands[brand] }]));
+  if (CFG.stay22) {
+    partnerCfg.hotels = { brand: 'Booking.com, Expedia, Hotels.com et Vrbo', stay22: CFG.stay22 };
+    partnerCfg.activites = { brand: 'GetYourGuide', stay22: CFG.stay22 };
+  }
   Object.assign(ctx, { items, dests, partnerCfg });
 
   fs.mkdirSync(path.join(OUT, 'vols'), { recursive: true });

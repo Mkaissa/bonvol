@@ -32,6 +32,7 @@ const CFG = {
   freshHours: 12,      // au-delà, un prix n'est plus affiché comme actuel (GitHub ne lance l'agent que toutes les 3 à 7 h)
   wlId: process.env.TP_WL_ID || '23936',   // moteur de recherche White Label (page Recherche)
   gscVerification: process.env.GSC_VERIFICATION || '',   // code de validation Google Search Console
+  stay22: process.env.STAY22_AID || 'bonvol',   // identifiant Stay22 : hôtels, locations, GetYourGuide, carte des hôtels
   legal: {             // mentions légales (obligatoires dès qu'on touche des commissions)
     editor: process.env.LEGAL_EDITOR || '',
     address: process.env.LEGAL_ADDRESS || '',
@@ -155,6 +156,7 @@ const BRANDS = {
   Kiwitaxi: 'https://kiwitaxi.com/', GetTransfer: 'https://gettransfer.com/', Intui: 'https://intui.travel/', 'Welcome Pickups': 'https://www.welcomepickups.com/',
   Airalo: 'https://www.airalo.com/', Yesim: 'https://yesim.app/', Drimsim: 'https://drimsim.com/', Saily: 'https://saily.com/',
   EKTA: 'https://ektatraveling.com/', SafetyWing: 'https://safetywing.com/', VisitorsCoverage: 'https://www.visitorscoverage.com/', Insubuy: 'https://www.insubuy.com/',
+  Trainline: 'https://www.thetrainline.com/', Omio: 'https://www.omio.com/', 'Rail Europe': 'https://www.raileurope.com/', 'Rail Ninja': 'https://rail.ninja/', Busbud: 'https://www.busbud.com/',
 };
 const TAB_BRANDS = {
   hotels: ['Booking.com', 'Agoda', 'Trip.com', 'Expedia', 'Hotels.com', 'Vrbo', 'Vio.com', 'Hostelworld'],
@@ -164,6 +166,7 @@ const TAB_BRANDS = {
   transferts: ['Kiwitaxi', 'GetTransfer', 'Intui', 'Welcome Pickups'],
   esim: ['Airalo', 'Yesim', 'Drimsim', 'Saily'],
   assurance: ['EKTA', 'SafetyWing', 'VisitorsCoverage', 'Insubuy'],
+  trains: ['Trainline', 'Omio', 'Rail Europe', 'Rail Ninja', 'Busbud'],
 };
 async function discoverPartners() {
   const old = fs.existsSync(PARTNERS_FILE) ? JSON.parse(fs.readFileSync(PARTNERS_FILE, 'utf8')) : null;
