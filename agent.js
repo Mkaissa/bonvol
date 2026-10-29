@@ -171,7 +171,7 @@ const TAB_BRANDS = {
 async function discoverPartners() {
   const old = fs.existsSync(PARTNERS_FILE) ? JSON.parse(fs.readFileSync(PARTNERS_FILE, 'utf8')) : null;
   if (old && Date.now() - new Date(old.checkedAt) < 7 * 864e5 && !process.env.PARTNERS_REFRESH) return old;
-  const names = Object.keys(BRANDS), brands = {};
+  const names = Object.keys(BRANDS), brands = {}, refused = {};
   try {
     for (let i = 0; i < names.length; i += 10) {
       const batch = names.slice(i, i + 10);
@@ -180,24 +180,24 @@ async function discoverPartners() {
         body: JSON.stringify({ trs: Number(CFG.trs), marker: Number(CFG.marker), shorten: false, links: batch.map(n => ({ url: BRANDS[n] })) }),
       });
       const txt = await res.text();
-      if (i === 0) report('notice', `Liens partenaires, réponse de Travelpayouts (${res.status}) : ${txt.slice(0, 700)}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status} ${txt.slice(0, 300)}`);
       const json = JSON.parse(txt), list = json.result?.links || json.links || json.result || [];
       batch.forEach((n, k) => {
         const out = Array.isArray(list) ? list[k] : null;
         const link = out && Object.values(out).find(v => typeof v === 'string' && /^https?:\/\//.test(v) && v !== BRANDS[n]);
-        if (!link) return;
+        if (!link) { const why = out?.message || out?.code || 'sans réponse'; (refused[why] ||= []).push(n); return; }
         const u = new URL(link), p = u.searchParams.get('p'), campaign = u.searchParams.get('campaign_id');
         brands[n] = { link, ...(p && campaign && { p, campaign_id: campaign }) };
       });
       await sleep(700);
     }
   } catch (e) {
-    report('warning', `Liens partenaires indisponibles (${e.message}) : les onglets concernés restent « bientôt »`);
+    report('warning', `Liens partenaires indisponibles (${e.message}) : la dernière liste connue est conservée`);
     return old || { checkedAt: null, brands: {}, tabs: {} };
   }
   const tabs = Object.fromEntries(Object.entries(TAB_BRANDS).map(([t, list]) => [t, list.find(n => brands[n])]).filter(([, n]) => n));
   report('notice', `Partenaires retenus : ${Object.entries(tabs).map(([t, n]) => `${t} → ${n}`).join(', ') || 'aucun'} (convertis : ${Object.keys(brands).join(', ') || 'aucun'})`);
+  if (Object.keys(refused).length) report('notice', `Partenaires refusés : ${Object.entries(refused).map(([why, l]) => `${l.join(', ')} (${why})`).join(' ; ')}`);
   const out = { checkedAt: new Date().toISOString(), brands, tabs };
   fs.mkdirSync(path.dirname(PARTNERS_FILE), { recursive: true });
   fs.writeFileSync(PARTNERS_FILE, JSON.stringify(out, null, 1));
