@@ -20,6 +20,10 @@
    {
     "date": "2026-10-29",
     "price": 214
+   },
+   {
+    "date": "2026-10-30",
+    "price": 214
    }
   ],
   "best": {
@@ -28,7 +32,7 @@
    "departure_at": "2026-11-16T07:40:00+01:00",
    "transfers": 1,
    "link": "/search/PAR1611DKR1?t=VY17948148001795026300003585ORYBCNDSS_33fdbbd6c784ca2e21591b1a45cba1f8_19215&search_date=28102026&expected_price_uuid=01a182a5-5ff9-8031-60fb-7e98fb096b9c&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=saYi4EJAXIkRTxZHeHSklQ&expected_price_source=share&expected_price_currency=eur&expected_price=214",
-   "seenAt": "2026-10-29T21:43:46.359Z"
+   "seenAt": "2026-10-30T01:51:33.948Z"
   },
   "lastAlert": null
  },
@@ -53,6 +57,10 @@
    {
     "date": "2026-10-29",
     "price": 315
+   },
+   {
+    "date": "2026-10-30",
+    "price": 315
    }
   ],
   "best": {
@@ -61,7 +69,7 @@
    "departure_at": "2026-11-14T07:00:00+01:00",
    "transfers": 2,
    "link": "/search/PAR1411ABJ1?t=AT17946396001794718200001370BVABGYMXPCMNABJ_c6b5b7cec823cc77603341d8479b21d4_28463&search_date=29102026&expected_price_uuid=01a186d4-b282-8040-29bc-92072b59de8a&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=IFK7FJuNFndQziNiSD5wQQ&expected_price_source=share&expected_price_currency=eur&expected_price=315",
-   "seenAt": "2026-10-29T21:43:47.844Z"
+   "seenAt": "2026-10-30T01:51:35.337Z"
   },
   "lastAlert": null
  },
@@ -86,6 +94,10 @@
    {
     "date": "2026-10-29",
     "price": 53
+   },
+   {
+    "date": "2026-10-30",
+    "price": 55
    }
   ],
   "best": {
@@ -94,7 +106,7 @@
    "departure_at": "2026-11-28T23:00:00+01:00",
    "transfers": 1,
    "link": "/search/PAR2811ALG1?t=FR17959068001795937400000510BVABCNALG_9a08f688b6593784ed6c6bb538005fe6_4988&search_date=29102026&expected_price_uuid=01a18964-aaf7-8031-6fce-421b2e2e2831&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=CvQazaRBvDheE6dbeTMa_Q&expected_price_source=share&expected_price_currency=eur&expected_price=55",
-   "seenAt": "2026-10-29T21:43:49.418Z"
+   "seenAt": "2026-10-30T01:51:36.826Z"
   },
   "lastAlert": null
  },
@@ -124,6 +136,10 @@
    {
     "date": "2026-10-29",
     "price": 77
+   },
+   {
+    "date": "2026-10-30",
+    "price": 86
    }
   ],
   "best": {
@@ -132,7 +148,7 @@
    "departure_at": "2026-11-01T06:25:00+01:00",
    "transfers": 0,
    "link": "/search/PAR0111TUN1?t=TO17935143001793523000000145ORYTUN_8ec1bc97f1b03a813318931347283dfb_7740&search_date=25102026&expected_price_uuid=01a174b7-867e-8040-6775-411896c538b4&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=8Vf4xdNyr_iv_kyl8RrlVQ&expected_price_source=share&expected_price_currency=eur&expected_price=86",
-   "seenAt": "2026-10-29T21:43:52.612Z"
+   "seenAt": "2026-10-30T01:51:39.994Z"
   },
   "lastAlert": null
  },
@@ -157,6 +173,10 @@
    {
     "date": "2026-10-29",
     "price": 365
+   },
+   {
+    "date": "2026-10-30",
+    "price": 365
    }
   ],
   "best": {
@@ -165,7 +185,7 @@
    "departure_at": "2026-12-15T06:05:00+01:00",
    "transfers": 2,
    "link": "/search/PAR1512BKO1?t=TU17973147001797379500001140ORYALGTUNBKO_7c618766d0fb011c2727b5cd6dcbac83_32815&search_date=28102026&expected_price_uuid=01a1826d-bf9d-8040-2f2b-6202e3a4a765&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=GVW_tCAyfG1DEheE7yxSYQ&expected_price_source=share&expected_price_currency=eur&expected_price=365",
-   "seenAt": "2026-10-29T21:43:54.244Z"
+   "seenAt": "2026-10-30T01:51:41.573Z"
   },
   "lastAlert": null
  },
@@ -190,6 +210,10 @@
    {
     "date": "2026-10-29",
     "price": 318
+   },
+   {
+    "date": "2026-10-30",
+    "price": 318
    }
   ],
   "best": {
@@ -198,7 +222,7 @@
    "departure_at": "2026-11-08T08:10:00+01:00",
    "transfers": 1,
    "link": "/search/PAR0811DLA1?t=AH17941254001794184500000985ORYALGDLA_ae8ca97e0102962c164f4a94422faa76_28581&search_date=24102026&expected_price_uuid=01a1704a-7631-8030-e847-e1e2e0aeae19&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=3wUd-mpInv62d8zsxd6ToA&expected_price_source=share&expected_price_currency=eur&expected_price=318",
-   "seenAt": "2026-10-29T21:43:55.913Z"
+   "seenAt": "2026-10-30T01:51:43.143Z"
   },
   "lastAlert": null
  },
@@ -223,6 +247,10 @@
    {
     "date": "2026-10-29",
     "price": 448
+   },
+   {
+    "date": "2026-10-30",
+    "price": 448
    }
   ],
   "best": {
@@ -231,7 +259,7 @@
    "departure_at": "2026-11-10T16:00:00+01:00",
    "transfers": 3,
    "link": "/search/BRU1011FIH1?t=MS17943264001794456300002165CRLMLABGYCAIFIH_967d4157ec21604d899b57cad49733c1_40250&search_date=28102026&expected_price_uuid=01a1810e-8bb5-8040-2296-61e6489ba415&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=EXUNo6KHMLGQlcZ_mKRApw&expected_price_source=share&expected_price_currency=eur&expected_price=448",
-   "seenAt": "2026-10-29T21:43:57.487Z"
+   "seenAt": "2026-10-30T01:51:44.621Z"
   },
   "lastAlert": null
  },
@@ -256,6 +284,10 @@
    {
     "date": "2026-10-29",
     "price": 51
+   },
+   {
+    "date": "2026-10-30",
+    "price": 51
    }
   ],
   "best": {
@@ -264,7 +296,7 @@
    "departure_at": "2026-11-28T08:30:00+01:00",
    "transfers": 1,
    "link": "/search/LYS2811ALG1?t=V717958546001795877100000375LYSQSFALG_afa938eb5c9d1431537c7065d340990f_4567&search_date=28102026&expected_price_uuid=01a180f0-1822-8040-67f4-78acc3e0c5ff&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=maCSk_YRiUJS4jBhEtGFUw&expected_price_source=share&expected_price_currency=eur&expected_price=51",
-   "seenAt": "2026-10-29T21:43:59.109Z"
+   "seenAt": "2026-10-30T01:51:46.097Z"
   },
   "lastAlert": null
  },
@@ -289,6 +321,10 @@
    {
     "date": "2026-10-29",
     "price": 266
+   },
+   {
+    "date": "2026-10-30",
+    "price": 266
    }
   ],
   "best": {
@@ -297,7 +333,7 @@
    "departure_at": "2026-11-10T18:30:00-05:00",
    "transfers": 1,
    "link": "/search/YMQ1011ALG1?t=TS17943354001794417900001015YULBCNALG_3d5b738fc3244500efaf971e19ac7e1a_24046&search_date=26102026&expected_price_uuid=01a17915-e3ae-8030-a077-c2c96e35721f&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=ASQjMfZFXVv4jlE1povC_g&expected_price_source=share&expected_price_currency=eur&expected_price=266",
-   "seenAt": "2026-10-29T21:44:00.692Z"
+   "seenAt": "2026-10-30T01:51:47.771Z"
   },
   "lastAlert": null
  },
@@ -322,6 +358,10 @@
    {
     "date": "2026-10-29",
     "price": 72
+   },
+   {
+    "date": "2026-10-30",
+    "price": 72
    }
   ],
   "best": {
@@ -330,7 +370,7 @@
    "departure_at": "2026-11-15T06:20:00+01:00",
    "transfers": 1,
    "link": "/search/PAR1511CMN1?t=FR17947236001794747300000455BVAALCCMN_7bb1c7bc12d2928859cb53b79ec44ad2_6531&search_date=29102026&expected_price_uuid=01a188ca-d074-8031-2b46-7c0235cd40e6&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=LNXvUYwgdollcUJKxFq_iQ&expected_price_source=share&expected_price_currency=eur&expected_price=72",
-   "seenAt": "2026-10-29T21:43:50.998Z"
+   "seenAt": "2026-10-30T01:51:38.413Z"
   },
   "lastAlert": null
  },
@@ -347,6 +387,10 @@
    {
     "date": "2026-10-29",
     "price": 68
+   },
+   {
+    "date": "2026-10-30",
+    "price": 68
    }
   ],
   "best": {
@@ -355,7 +399,7 @@
    "departure_at": "2026-11-04T14:55:00+01:00",
    "transfers": 0,
    "link": "/search/PAR0411ORN1?t=TO17938041001793813700000160ORYORN_67f5bebaf98d6dc8aa6ba869bc314713_6145&search_date=26102026&expected_price_uuid=01a17976-850e-8040-22d9-717247465c18&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=QNmM2poR6QE0LJU46A_a7w&expected_price_source=share&expected_price_currency=eur&expected_price=68",
-   "seenAt": "2026-10-29T21:44:02.194Z"
+   "seenAt": "2026-10-30T01:51:49.358Z"
   },
   "lastAlert": null
  },
@@ -372,6 +416,10 @@
    {
     "date": "2026-10-29",
     "price": 94
+   },
+   {
+    "date": "2026-10-30",
+    "price": 94
    }
   ],
   "best": {
@@ -380,7 +428,7 @@
    "departure_at": "2026-11-20T07:20:00+01:00",
    "transfers": 1,
    "link": "/search/PAR2011CZL1?t=TO17951592001795202700000725ORYALGCZL_46e6a056253bc71e90d9ff82f271eca8_8429&search_date=29102026&expected_price_uuid=01a186c3-14c9-8040-626c-eae0f9820a81&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=mqArGRdmbj1CX8J-lcZvdQ&expected_price_source=share&expected_price_currency=eur&expected_price=94",
-   "seenAt": "2026-10-29T21:44:03.809Z"
+   "seenAt": "2026-10-30T01:51:50.938Z"
   },
   "lastAlert": null
  },
@@ -397,6 +445,10 @@
    {
     "date": "2026-10-29",
     "price": 41
+   },
+   {
+    "date": "2026-10-30",
+    "price": 41
    }
   ],
   "best": {
@@ -405,7 +457,7 @@
    "departure_at": "2026-11-26T06:00:00+01:00",
    "transfers": 0,
    "link": "/search/MRS2611ALG1?t=V717956728001795678500000095MRSALG_9a4965062719ac47530a75dbbce496f7_3683&search_date=27102026&expected_price_uuid=01a17d96-d1b7-8031-2a0e-78a30af1bb99&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=MxxWY1mACGlq10WVNj-daw&expected_price_source=share&expected_price_currency=eur&expected_price=41",
-   "seenAt": "2026-10-29T21:44:05.395Z"
+   "seenAt": "2026-10-30T01:51:52.416Z"
   },
   "lastAlert": null
  },
@@ -422,6 +474,10 @@
    {
     "date": "2026-10-29",
     "price": 27
+   },
+   {
+    "date": "2026-10-30",
+    "price": 27
    }
   ],
   "best": {
@@ -430,7 +486,7 @@
    "departure_at": "2026-12-01T10:45:00+01:00",
    "transfers": 0,
    "link": "/search/PAR0112RAK1?t=FR17961219001796130300000200BVARAK_b508092792d95112d6e7273ba996406e_2459&search_date=25102026&expected_price_uuid=01a174f0-3ce5-8031-6cc5-bd8d8f3fb2ab&static_fare_key=TY%7CP1%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=wvUE5CMd3f6S5AXsHHGXtw&expected_price_source=share&expected_price_currency=eur&expected_price=27",
-   "seenAt": "2026-10-29T21:44:06.880Z"
+   "seenAt": "2026-10-30T01:51:53.903Z"
   },
   "lastAlert": null
  },
@@ -447,15 +503,19 @@
    {
     "date": "2026-10-29",
     "price": 33
+   },
+   {
+    "date": "2026-10-30",
+    "price": 33
    }
   ],
   "best": {
-   "price": 34,
+   "price": 33,
    "airline": "FR",
    "departure_at": "2026-11-17T12:00:00+01:00",
    "transfers": 0,
-   "link": "/search/PAR1711AGA1?t=FR17949168001794925800000210BVAAGA_28cbe7230d89aa0419c7e9ce6136ecc5_3042&search_date=29102026&expected_price_uuid=01a1897c-103f-8030-2ee2-3324602f131f&static_fare_key=TY%7CP1%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=1SEpfA1sgk4zmcSc4xUSkw&expected_price_source=share&expected_price_currency=eur&expected_price=34",
-   "seenAt": "2026-10-29T21:44:08.457Z"
+   "link": "/search/PAR1711AGA1?t=FR17949168001794925800000210BVAAGA_28cbe7230d89aa0419c7e9ce6136ecc5_3042&search_date=29102026&expected_price_uuid=01a1897c-103f-8030-2ee2-3324602f131f&static_fare_key=TY%7CP1%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=1SEpfA1sgk4zmcSc4xUSkw&expected_price_source=share&expected_price_currency=eur&expected_price=33",
+   "seenAt": "2026-10-30T01:51:55.382Z"
   },
   "lastAlert": null
  },
@@ -472,6 +532,10 @@
    {
     "date": "2026-10-29",
     "price": 66
+   },
+   {
+    "date": "2026-10-30",
+    "price": 66
    }
   ],
   "best": {
@@ -480,7 +544,7 @@
    "departure_at": "2026-12-29T07:35:00+01:00",
    "transfers": 0,
    "link": "/search/BRU2912CMN1?t=AT17985297001798538100000200BRUCMN_f2ba400304cbc5d8c7fa0550b774a54d_5926&search_date=26102026&expected_price_uuid=01a17884-2cb6-8030-213f-312801531e66&static_fare_key=TY%7CP1%7CH0%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=czJ1IFl6imjJ5rR2inxhVQ&expected_price_source=share&expected_price_currency=eur&expected_price=66",
-   "seenAt": "2026-10-29T21:44:10.143Z"
+   "seenAt": "2026-10-30T01:51:56.959Z"
   },
   "lastAlert": null
  },
@@ -497,6 +561,10 @@
    {
     "date": "2026-10-29",
     "price": 96
+   },
+   {
+    "date": "2026-10-30",
+    "price": 96
    }
   ],
   "best": {
@@ -505,7 +573,7 @@
    "departure_at": "2026-12-30T13:10:00+01:00",
    "transfers": 0,
    "link": "/search/PAR3012DJE1?t=TO17986362001798646700000175ORYDJE_187ee74297e20f99de222cc5f93e59fe_8650&search_date=23102026&expected_price_uuid=01a1690b-0f3f-8040-a868-8741952e2e3a&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=VNNr66gGJn1up2XK92CPNA&expected_price_source=share&expected_price_currency=eur&expected_price=96",
-   "seenAt": "2026-10-29T21:44:11.721Z"
+   "seenAt": "2026-10-30T01:51:58.546Z"
   },
   "lastAlert": null
  },
@@ -522,6 +590,10 @@
    {
     "date": "2026-10-29",
     "price": 480
+   },
+   {
+    "date": "2026-10-30",
+    "price": 480
    }
   ],
   "best": {
@@ -530,7 +602,7 @@
    "departure_at": "2026-11-09T06:10:00+01:00",
    "transfers": 3,
    "link": "/search/PAR0911LFW1?t=AT17942046001794276000001250ORYTLSLYSCMNLFW_ce70c61ed150076b02226c52b33405c7_43077&search_date=28102026&expected_price_uuid=01a183aa-ac8a-8040-2096-c2851815bc08&static_fare_key=TY%7CP1%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=laz_hFQX8ppVEBGLNBeeiA&expected_price_source=share&expected_price_currency=eur&expected_price=480",
-   "seenAt": "2026-10-29T21:44:13.295Z"
+   "seenAt": "2026-10-30T01:52:00.082Z"
   },
   "lastAlert": null
  },
@@ -547,6 +619,10 @@
    {
     "date": "2026-10-29",
     "price": 434
+   },
+   {
+    "date": "2026-10-30",
+    "price": 434
    }
   ],
   "best": {
@@ -555,7 +631,7 @@
    "departure_at": "2026-12-02T06:45:00+01:00",
    "transfers": 1,
    "link": "/search/PAR0212COO1?t=TK17961939001796250600000945CDGISTCOO_d6aa4cd2ac1e7182161ed66e5b16be64_39178&search_date=26102026&expected_price_uuid=01a1798b-6c83-8031-6d2f-36c1b741caee&static_fare_key=TY%7CP1%7CH1%7CL1_1_23%7CCH0%7CR0%7CTBC1&itinerary_key=RY89UZbQSnMJPtmkjyKmHA&expected_price_source=share&expected_price_currency=eur&expected_price=434",
-   "seenAt": "2026-10-29T21:44:14.874Z"
+   "seenAt": "2026-10-30T01:52:01.571Z"
   },
   "lastAlert": null
  },
@@ -572,6 +648,10 @@
    {
     "date": "2026-10-29",
     "price": 295
+   },
+   {
+    "date": "2026-10-30",
+    "price": 295
    }
   ],
   "best": {
@@ -580,7 +660,7 @@
    "departure_at": "2026-12-06T10:10:00+01:00",
    "transfers": 2,
    "link": "/search/PAR0612CKY1?t=AT17965518001796606400000970BVATSFVCECMNCKY_0bbefcedd10f8c30c1cb332abb676b49_27066&search_date=25102026&expected_price_uuid=01a17349-7d00-8040-6bb5-ced624f8a247&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=V73jgJww5u_k1paKnzud4g&expected_price_source=share&expected_price_currency=eur&expected_price=295",
-   "seenAt": "2026-10-29T21:44:16.577Z"
+   "seenAt": "2026-10-30T01:52:03.048Z"
   },
   "lastAlert": null
  },
@@ -597,6 +677,10 @@
    {
     "date": "2026-10-29",
     "price": 440
+   },
+   {
+    "date": "2026-10-30",
+    "price": 440
    }
   ],
   "best": {
@@ -605,7 +689,7 @@
    "departure_at": "2026-11-15T12:20:00+01:00",
    "transfers": 1,
    "link": "/search/PAR1511NSI1?t=AT17947452001794801300000935ORYCMNNSI_896b8d27ad39f117fe31853534f0267f_39463&search_date=27102026&expected_price_uuid=01a17edf-c5b9-8040-a903-eaf3fa0747ad&static_fare_key=TY%7CP0%7CH0%7CL1_1_23%7CCH1%7CR0%7CTBC1&itinerary_key=g1bEtTRbK1G6sWL-MJKO4w&destination_airports=0&expected_price_source=share&expected_price_currency=eur&expected_price=440",
-   "seenAt": "2026-10-29T21:44:18.155Z"
+   "seenAt": "2026-10-30T01:52:04.623Z"
   },
   "lastAlert": null
  },
@@ -622,15 +706,19 @@
    {
     "date": "2026-10-29",
     "price": 211
+   },
+   {
+    "date": "2026-10-30",
+    "price": 207
    }
   ],
   "best": {
-   "price": 211,
-   "airline": "VY",
-   "departure_at": "2026-11-18T19:25:00Z",
+   "price": 207,
+   "airline": "TO",
+   "departure_at": "2026-12-07T14:45:00Z",
    "transfers": 1,
-   "link": "/search/DKR1811PAR1?t=VY17950299001795095600001035DSSBCNBVA_85a1bf67c0a4c30c12794b43e3849cb0_19381&search_date=23102026&expected_price_uuid=01a16728-4225-8030-a45d-51bd76866282&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=_IPVINHZP4UhgjUYxlrOlQ&expected_price_source=share&expected_price_currency=eur&expected_price=211",
-   "seenAt": "2026-10-29T21:44:19.752Z"
+   "link": "/search/DKR0712PAR1?t=TO17966547001796716800000975DSSNCEORY_4ab3e1913ca56f7a564324b005e7cca7_18828&search_date=29102026&expected_price_uuid=01a189e4-c048-8030-e287-3857443be756&static_fare_key=TY%7CP1%7CH0%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=FbHhOB_cy7SEFy3kUuE3sg&expected_price_source=share&expected_price_currency=eur&expected_price=207",
+   "seenAt": "2026-10-30T01:52:06.121Z"
   },
   "lastAlert": null
  },
@@ -647,6 +735,10 @@
    {
     "date": "2026-10-29",
     "price": 331
+   },
+   {
+    "date": "2026-10-30",
+    "price": 331
    }
   ],
   "best": {
@@ -655,7 +747,7 @@
    "departure_at": "2026-11-30T14:00:00Z",
    "transfers": 1,
    "link": "/search/ABJ3011PAR1?t=HC17960472001796107500000945ABJDSSCDG_b9644d884a4de084be63deaba4184e2b_29831&search_date=26102026&expected_price_uuid=01a178cd-c557-8040-60ec-216bcc09bd0a&static_fare_key=TY%7CP0%7CH1%7CL1_2_0%7CCH0%7CR0%7CTBC1&itinerary_key=Ot73j4cwrDRVctpNg1aV0g&expected_price_source=share&expected_price_currency=eur&expected_price=331",
-   "seenAt": "2026-10-29T21:44:21.229Z"
+   "seenAt": "2026-10-30T01:52:07.608Z"
   },
   "lastAlert": null
  },
@@ -672,6 +764,10 @@
    {
     "date": "2026-10-29",
     "price": 32
+   },
+   {
+    "date": "2026-10-30",
+    "price": 35
    }
   ],
   "best": {
@@ -680,7 +776,7 @@
    "departure_at": "2026-12-23T20:15:00+01:00",
    "transfers": 0,
    "link": "/search/ALG2312PAR1?t=TO17980569001798065900000150ALGORY_510617c49b2e596b86eb63fcb7ade707_3180&search_date=29102026&expected_price_uuid=01a18566-f16c-8030-a729-e3971aec7eeb&static_fare_key=TY%7CP1%7CH0%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=nJAd0lj-H0utPqINxHQLHA&expected_price_source=share&expected_price_currency=eur&expected_price=35",
-   "seenAt": "2026-10-29T21:44:22.808Z"
+   "seenAt": "2026-10-30T01:52:09.020Z"
   },
   "lastAlert": null
  },
@@ -697,6 +793,10 @@
    {
     "date": "2026-10-29",
     "price": 65
+   },
+   {
+    "date": "2026-10-30",
+    "price": 65
    }
   ],
   "best": {
@@ -705,7 +805,7 @@
    "departure_at": "2026-12-13T10:10:00+01:00",
    "transfers": 1,
    "link": "/search/CMN1312PAR1?t=VY17971566001797287400002120CMNAGPORY_82bb310b2d72596c15afee5076d772fa_5878&search_date=24102026&expected_price_uuid=01a16d34-f61f-8030-2a5d-bca54d2df77e&static_fare_key=TY%7CP1%7CH0%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=wystP1SriACHGYcWzH5ybA&expected_price_source=share&expected_price_currency=eur&expected_price=65",
-   "seenAt": "2026-10-29T21:44:24.440Z"
+   "seenAt": "2026-10-30T01:52:10.618Z"
   },
   "lastAlert": null
  },
@@ -722,15 +822,19 @@
    {
     "date": "2026-10-29",
     "price": 40
+   },
+   {
+    "date": "2026-10-30",
+    "price": 35
    }
   ],
   "best": {
-   "price": 40,
+   "price": 35,
    "airline": "TO",
-   "departure_at": "2026-11-05T13:30:00+01:00",
+   "departure_at": "2026-12-01T09:40:00+01:00",
    "transfers": 0,
-   "link": "/search/TUN0511PAR1?t=TO17938854001793895000000160TUNORY_13ab339361f2df2c85da5fad4f761194_3586&search_date=27102026&expected_price_uuid=01a17cfd-e7eb-8030-e705-dc5a76ed836e&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=GL1SiE6WlxHGhp2g_i_IBA&expected_price_source=share&expected_price_currency=eur&expected_price=40",
-   "seenAt": "2026-10-29T21:44:26.113Z"
+   "link": "/search/TUN0112PAR1?t=TO17961180001796127600000160TUNORY_327d240bb8e71eb9b250b4c66884a952_3180&search_date=29102026&expected_price_uuid=01a189c2-b492-8030-6b7f-24620d21f4a7&static_fare_key=TY%7CP1%7CH0%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=ekp7A5dkE8EL4qgkDGvzzg&expected_price_source=share&expected_price_currency=eur&expected_price=35",
+   "seenAt": "2026-10-30T01:52:12.213Z"
   },
   "lastAlert": null
  },
@@ -747,6 +851,10 @@
    {
     "date": "2026-10-29",
     "price": 352
+   },
+   {
+    "date": "2026-10-30",
+    "price": 352
    }
   ],
   "best": {
@@ -755,7 +863,7 @@
    "departure_at": "2026-11-28T10:05:00Z",
    "transfers": 1,
    "link": "/search/BKO2811PAR1?t=HC17958603001795934700001180BKODSSCDG_289c1c4908bcd5f79cab3090a1533b42_32277&search_date=25102026&expected_price_uuid=01a17405-cc47-8040-2ee7-555092cd8953&static_fare_key=TY%7CP0%7CH1%7CL1_1_23%7CCH0%7CR0%7CTBC1&itinerary_key=CgL9TnpDKesJPAR4H7y_Iw&expected_price_source=share&expected_price_currency=eur&expected_price=352",
-   "seenAt": "2026-10-29T21:44:27.717Z"
+   "seenAt": "2026-10-30T01:52:13.906Z"
   },
   "lastAlert": null
  },
@@ -772,6 +880,10 @@
    {
     "date": "2026-10-29",
     "price": 400
+   },
+   {
+    "date": "2026-10-30",
+    "price": 400
    }
   ],
   "best": {
@@ -780,7 +892,7 @@
    "departure_at": "2026-11-02T06:35:00+01:00",
    "transfers": 1,
    "link": "/search/DLA0211PAR1?t=AT17936013001793704500001720DLACMNCDG_1cc4a151cceadb3d0abbce7036730551_36143&search_date=23102026&expected_price_uuid=01a16a09-06b9-8040-2bf7-d9efcd624f4a&static_fare_key=TY%7CP0%7CH1%7CL1_1_23%7CCH1%7CR0%7CTBC1&itinerary_key=YublbIAOEJnpI5ZCvEuAWA&expected_price_source=share&expected_price_currency=eur&expected_price=400",
-   "seenAt": "2026-10-29T21:44:29.307Z"
+   "seenAt": "2026-10-30T01:52:15.285Z"
   },
   "lastAlert": null
  },
@@ -797,6 +909,10 @@
    {
     "date": "2026-10-29",
     "price": 528
+   },
+   {
+    "date": "2026-10-30",
+    "price": 528
    }
   ],
   "best": {
@@ -805,7 +921,7 @@
    "departure_at": "2026-11-05T22:45:00+01:00",
    "transfers": 0,
    "link": "/search/FIH0511BRU1?t=SN17939187001793947800000485FIHBRU_4e21b5c1a611553e115f8e59d504b6c8_47419&search_date=28102026&expected_price_uuid=01a182d4-2749-8040-a1f8-c11fbaa07b5b&static_fare_key=TY%7CP0%7CH1%7CL1_1_23%7CCH0%7CR0%7CTBC1&itinerary_key=n6iAyigJFwEdo5pRBXvehQ&expected_price_source=share&expected_price_currency=eur&expected_price=528",
-   "seenAt": "2026-10-29T21:44:30.876Z"
+   "seenAt": "2026-10-30T01:52:16.762Z"
   },
   "lastAlert": null
  },
@@ -822,6 +938,10 @@
    {
     "date": "2026-10-29",
     "price": 47
+   },
+   {
+    "date": "2026-10-30",
+    "price": 47
    }
   ],
   "best": {
@@ -830,7 +950,7 @@
    "departure_at": "2026-11-22T08:30:00+01:00",
    "transfers": 0,
    "link": "/search/ALG2211LYS1?t=5O17953362001795342800000110ALGLYS_cbbc6a352f42d3484fca90786f5b06d6_4231&search_date=25102026&expected_price_uuid=01a171f8-88d8-8030-254a-7f986aded17d&static_fare_key=TY%7CP0%7CH1%7CL0%7CCH0%7CR0%7CTBC0&itinerary_key=PQ8nd5iNKfeIKUJ0b5yM1A&expected_price_source=share&expected_price_currency=eur&expected_price=47",
-   "seenAt": "2026-10-29T21:44:32.561Z"
+   "seenAt": "2026-10-30T01:52:18.274Z"
   },
   "lastAlert": null
  },
@@ -847,6 +967,10 @@
    {
     "date": "2026-10-29",
     "price": 28
+   },
+   {
+    "date": "2026-10-30",
+    "price": 32
    }
   ],
   "best": {
@@ -855,7 +979,7 @@
    "departure_at": "2026-11-13T21:05:00+01:00",
    "transfers": 0,
    "link": "/search/ALG1311MRS1?t=TO17946039001794609900000100ALGMRS_11cd41d2bfb585506632072f8f390a12_2907&search_date=29102026&expected_price_uuid=01a184fd-25f7-8040-2fef-39e1fc0d5df4&static_fare_key=TY%7CP0%7CH0%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=jCpDYrz2Tydw5gBfXKS6mQ&expected_price_source=share&expected_price_currency=eur&expected_price=32",
-   "seenAt": "2026-10-29T21:44:34.229Z"
+   "seenAt": "2026-10-30T01:52:19.657Z"
   },
   "lastAlert": null
  }
